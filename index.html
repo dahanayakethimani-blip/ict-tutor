@@ -1,218 +1,404 @@
 <!DOCTYPE html>
 <html lang="si">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>තිමානි දහනායක | ICT 2027 A/L පන්ති</title>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide-icons"></script>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    body {
-      font-family: 'Noto Sans Sinhala', 'Inter', sans-serif;
-      scroll-behavior: smooth;
-    }
-
-    .whatsapp-button {
-      background-color: #25D366;
-      transition: all 0.3s ease;
-    }
-    .whatsapp-button:hover {
-      background-color: #128C7E;
-      transform: translateY(-2px);
-    }
-
-    .hero-image {
-      max-height: 480px;
-      width: auto;
-      object-fit: contain;
-    }
-
-    /* Modern glass-style card hover */
-    .card-hover {
-      transition: all 0.3s ease;
-    }
-    .card-hover:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A/L ICT: ඉංග්‍රීසි මාධ්‍යයේ තීරණාත්මක බව</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans Sinhala', 'Inter', sans-serif;
+            color: #1F2937; /* Dark Gray from the theme */
+            background-color: #F9FAFB;
+        }
+        .card-themed {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+            padding: 32px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+        .card-themed:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(29, 78, 216, 0.2); /* Shadow with Blue-700 hint */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 380px;
+            max-height: 450px;
+        }
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 300px;
+                max-height: 350px;
+            }
+        }
+    </style>
 </head>
+<body class="bg-gradient-to-b from-gray-50 to-gray-100">
+    
+    <!-- Combined Hero Section (Replaces Header and Teacher Profile) -->
+    <section class="max-w-7xl mx-auto px-6 py-16">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            
+            <!-- Text Content and CTA -->
+            <div class="lg:order-1 order-2 text-center lg:text-left">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-4 leading-tight">
+                    <span class="text-blue-700">2027 A/L ICT</span> විශ්වාසයෙන් ඉගෙනීමක්
+                </h1>
+                <p class="text-xl text-gray-600 max-w-4xl mx-auto lg:mx-0 font-medium mb-8">
+                    තිමානි දහනායක විසින් මෙහෙයවන භෞතික සහ මාර්ගගත (Online) පන්ති සඳහා එක්වන්න. 
+                    <span class="block mt-1 text-gray-700 font-semibold">BSc (Hons) in Computer Science, SLIIT (උපාධි අපේක්ෂක).</span>
+                </p>
+                <!-- CTA Buttons -->
+                <div class="flex justify-center lg:justify-start space-x-4">
+                    <a href="#registration" 
+                       class="bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-lg inline-block hover:bg-blue-800 transition shadow-lg">
+                        අදම ලියාපදිංචි වන්න
+                    </a>
+                    <a href="#schedule" 
+                       class="bg-gray-200 text-gray-800 font-bold py-3 px-6 rounded-lg text-lg inline-block hover:bg-gray-300 transition shadow-md">
+                        කාලසටහන බලන්න
+                    </a>
+                </div>
+            </div>
 
-<body class="bg-gradient-to-b from-gray-50 to-gray-100 text-gray-800">
-
-  <!-- Header -->
-  <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50 transition-all">
-    <nav class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <a href="#home" class="text-2xl font-extrabold text-blue-700 hover:text-blue-800 transition">තිමානි දහනායක</a>
-
-        <!-- Nav Links -->
-        <div class="hidden md:flex space-x-6 font-medium">
-          <a href="#home" class="hover:text-blue-700 transition">මුල් පිටුව</a>
-          <a href="#about" class="hover:text-blue-700 transition">මා පිළිබඳ</a>
-          <a href="#schedule" class="hover:text-blue-700 transition">පන්ති කාලසටහන</a>
-          <a href="#blog" class="hover:text-blue-700 transition">බ්ලොග්</a>
-          <a href="#contact" class="bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition">ලියාපදිංචි වන්න</a>
+            <!-- Image Content -->
+            <div class="lg:order-2 order-1 flex justify-center lg:justify-end">
+                <div class="w-full max-w-md bg-white rounded-3xl overflow-hidden shadow-2xl">
+                    <img src="imgs/pp.png"
+                         alt="තිමානි දහනායක - ගුරුවරිය"
+                         class="w-full h-auto object-cover"
+                         onerror="this.src='https://placehold.co/500x500/1D4ED8/FFFFFF?text=Thimani+D'; this.onerror=null;">
+                </div>
+            </div>
         </div>
+    </section>
 
-        <!-- Mobile Menu Button -->
-        <button class="md:hidden" aria-label="Open menu">
-          <svg data-lucide="menu" class="w-7 h-7 text-gray-700"></svg>
-        </button>
-      </div>
-    </nav>
-  </header>
+    <main class="max-w-7xl mx-auto p-4 sm:p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-  <!-- Hero -->
-  <section id="home" class="pt-20 pb-24 bg-white">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row items-center gap-10">
-      <div class="md:w-1/2 text-center md:text-left space-y-6">
-        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-          <span class="text-blue-700">2027 A/L ICT</span> විශ්වාසයෙන් ඉගෙනීමක්
-        </h1>
-        <p class="text-lg text-gray-600">
-          තිමානි දහනායක විසින් මෙහෙයවන භෞතික සහ මාර්ගගත (Online) පන්ති සඳහා එක්වන්න.
-          <br>BSc (Hons) in Computer Science, SLIIT (උපාධි අපේක්ෂක).
-        </p>
-        <div class="flex justify-center md:justify-start gap-4">
-          <a href="#contact" class="bg-blue-700 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-800 transition">අදම ලියාපදිංචි වන්න</a>
-          <a href="#schedule" class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg text-lg font-semibold hover:bg-gray-300 transition">කාලසටහන බලන්න</a>
+            <!-- Section 1: Global Language - Doughnut Chart -->
+            <div class="card-themed lg:col-span-2">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">
+                    තාක්ෂණයේ ගෝලීය භාෂාවට සෘජු ප්‍රවේශය
+                </h2>
+                <p class="text-base sm:text-lg text-gray-700 mb-8 text-center max-w-3xl mx-auto">
+                    නවීන තාක්ෂණයන්, කේතීකරණ (coding) සහ පර්යේෂණ ලේඛන සියල්ල ඉංග්‍රීසියෙන් පවතින බැවින්, ඉංග්‍රීසි ප්‍රවීණතාවය යනු ගෝලීය දැනුම් සම්භාරයට ක්ෂණිකව පිවිසීමට ඇති එකම මාර්ගයයි.
+                </p>
+                
+                <div class="flex flex-col lg:flex-row items-center gap-10">
+                    <div class="w-full lg:w-1/2">
+                        <div class="chart-container" style="max-width: 450px; height: 350px;">
+                            <canvas id="languageChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-1/2 space-y-4">
+                        <div class="bg-blue-50 p-5 rounded-xl flex items-center shadow-sm">
+                            <span class="text-3xl mr-4 text-blue-700">💡</span>
+                            <div>
+                                <h4 class="font-semibold text-blue-800">ක්‍රමලේඛන භාෂා</h4>
+                                <p class="text-sm text-gray-600">සියලුම Programming Languages ඉංග්‍රීසි වචන සහ වාක්‍ය ඛණ්ඩ මත පදනම් වේ.</p>
+                            </div>
+                        </div>
+                        <div class="bg-blue-50 p-5 rounded-xl flex items-center shadow-sm">
+                            <span class="text-3xl mr-4 text-blue-700">🔗</span>
+                            <div>
+                                <h4 class="font-semibold text-blue-800">ජාත්‍යන්තර සංසද</h4>
+                                <p class="text-sm text-gray-600">ගෝලීය සංවර්ධකයන් සමඟ සන්නිවේදනය කිරීමට ඇති හැකියාව.</p>
+                            </div>
+                        </div>
+                        <div class="bg-blue-50 p-5 rounded-xl flex items-center shadow-sm">
+                            <span class="text-3xl mr-4 text-blue-700">⏱️</span>
+                            <div>
+                                <h4 class="font-semibold text-blue-800">කාලය ඉතිරි කිරීම</h4>
+                                <p class="text-sm text-gray-600">දැනුම පරිවර්තනය වන තෙක් බලා නොසිට නවතම තාක්ෂණයන් ක්ෂණිකව අවබෝධ කරගැනීම.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: University Readiness - Bar Chart -->
+            <div class="card-themed lg:col-span-1">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+                    විශ්වවිද්‍යාල සූදානම සංසන්දනය
+                </h2>
+                <p class="text-base text-gray-700 mb-8 text-center">
+                    දේශීය විශ්වවිද්‍යාලවල පළමු වසර තුළ තාක්ෂණික සංකල්ප අවබෝධ කරගැනීමේ ශිෂ්‍ය හැකියාවන් සංසන්දනය කිරීම.
+                </p>
+                <div class="chart-container" style="height: 350px;">
+                    <canvas id="universityChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Section 3: Career Potential - Horizontal Bar Chart -->
+            <div class="card-themed lg:col-span-1">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+                    වෘත්තීය ආදායම් වර්ධන විභවය
+                </h2>
+                <p class="text-base text-gray-700 mb-8 text-center">
+                    වෘත්තීය ජීවිතයේ පළමු වසර 5 තුළ ඉංග්‍රීසි මාධ්‍ය ප්‍රවීණතාවය ආදායම් වර්ධනයට බලපාන ආකාරය (සාමාන්‍ය දත්ත).
+                </p>
+                <div class="chart-container" style="height: 350px;">
+                    <canvas id="careerChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Section 4: Lesson Links & Study Path (Unchanged) -->
+            <div class="card-themed lg:col-span-2">
+                <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">
+                    පන්ති අන්තර්ගතය සහ සටහන් (Lesson Links)
+                </h2>
+                <p class="text-base sm:text-lg text-gray-700 mb-10 text-center max-w-3xl mx-auto">
+                    පහතින් දැක්වෙන්නේ අපගේ ඉගැන්වීමේ ක්‍රමවේදය සහ විෂය ආවරණය පිළිබඳව අදහසක් ලබා ගැනීමට ඇති සටහන් කිහිපයකි.
+                </p>
+
+                <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Lesson 1: Databases -->
+                    <div class="card-themed p-0 overflow-hidden flex flex-col hover:shadow-xl">
+                        <img src="https://placehold.co/600x250/1D4ED8/FFFFFF?text=Lesson+01" alt="දත්ත සහ තොරතුරු" class="h-40 w-full object-cover rounded-t-lg" onerror="this.src='https://placehold.co/600x250/1D4ED8/FFFFFF?text=Lesson+01'; this.onerror=null;">
+                        <div class="p-5 flex-grow text-left">
+                            <span class="text-sm text-blue-700 font-medium">මූලික සංකල්ප</span>
+                            <h3 class="mt-2 text-xl font-semibold text-gray-900">දත්ත සහ තොරතුරු - හැඳින්වීම</h3>
+                            <p class="mt-3 text-gray-600">A/L විෂය නිර්දේශයේ පළමු පාඩමේ මූලික සංකල්ප.</p>
+                        </div>
+                        <div class="p-5 bg-gray-50 text-left border-t border-gray-100">
+                            <a href="syllabus/AL_ICT_Lesson_01.html" class="text-blue-700 font-medium hover:text-blue-900 transition">සටහන බලන්න →</a>
+                        </div>
+                    </div>
+
+                    <!-- Lesson 2: Python -->
+                    <div class="card-themed p-0 overflow-hidden flex flex-col hover:shadow-xl">
+                        <img src="https://placehold.co/600x250/3B82F6/FFFFFF?text=Python+Code" alt="ක්‍රමලේඛනය" class="h-40 w-full object-cover rounded-t-lg" onerror="this.src='https://placehold.co/600x250/3B82F6/FFFFFF?text=Python+Code'; this.onerror=null;">
+                        <div class="p-5 flex-grow text-left">
+                            <span class="text-sm text-blue-700 font-medium">ක්‍රමලේඛනය</span>
+                            <h3 class="mt-2 text-xl font-semibold text-gray-900">Python: මූලික ගැටළු විසඳීම</h3>
+                            <p class="mt-3 text-gray-600">නව විෂය නිර්දේශයේ Python ප්‍රශ්න සඳහා උපදෙස් 5ක්.</p>
+                        </div>
+                        <div class="p-5 bg-gray-50 text-left border-t border-gray-100">
+                            <a href="#" class="text-blue-700 font-medium hover:text-blue-900 transition">සටහන බලන්න →</a>
+                        </div>
+                    </div>
+
+                    <!-- Lesson 3: Networking -->
+                    <div class="card-themed p-0 overflow-hidden flex flex-col hover:shadow-xl">
+                        <img src="https://placehold.co/600x250/10B981/FFFFFF?text=Networking" alt="ජාලකරණය" class="h-40 w-full object-cover rounded-t-lg" onerror="this.src='https://placehold.co/600x250/10B981/FFFFFF?text=Networking'; this.onerror=null;">
+                        <div class="p-5 flex-grow text-left">
+                            <span class="text-sm text-blue-700 font-medium">ජාලකරණය</span>
+                            <h3 class="mt-2 text-xl font-semibold text-gray-900">OSI ආකෘතියේ ස්ථර 7</h3>
+                            <p class="mt-3 text-gray-600">OSI ආකෘතිය සරලව හා පැහැදිලිව ඉගෙන ගනිමු.</p>
+                        </div>
+                        <div class="p-5 bg-gray-50 text-left border-t border-gray-100">
+                            <a href="#" class="text-blue-700 font-medium hover:text-blue-900 transition">සටහන බලන්න →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-      </div>
-      <div class="md:w-1/2 flex justify-center">
-        <img src="imgs/pp.png"
-          alt="තිමානි දහනායක - ICT ගුරුවරිය"
-          class="rounded-2xl shadow-xl hero-image"
-          onerror="this.src='https://placehold.co/400x500/E0E7FF/3730A3?text=Thimani+Dahanayake'; this.onerror=null;">
-      </div>
-    </div>
-  </section>
+    </main>
 
-  <!-- About -->
-  <section id="about" class="py-20 bg-gray-50 text-center">
-    <div class="max-w-3xl mx-auto px-6">
-      <h2 class="text-3xl font-bold text-gray-900">ගුරුවරිය පිළිබඳව</h2>
-      <div class="w-20 h-1 bg-blue-700 mx-auto mt-4 rounded-full"></div>
-      <p class="mt-6 text-lg text-gray-700 leading-relaxed">
-        මම <span class="font-semibold text-blue-800">තිමානි දහනායක</span> — SLIIT විශ්වවිද්‍යාලයේ පරිගණක විද්‍යාව උපාධිය හදාරන උපාධි අපේක්ෂකාවක්.
-        මගේ අරමුණ වන්නේ ICT මාතෘකා සරලව පැහැදිලි කරමින් ඔබේ 2027 A/L විභාගය සඳහා ශක්තිමත් පදනමක් ගොඩනැගීමයි.
-      </p>
-    </div>
-  </section>
-
-  <!-- Schedule -->
-  <section id="schedule" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-      <h2 class="text-3xl font-bold text-gray-900">පන්ති කාලසටහන</h2>
-      <p class="mt-2 text-gray-600">ඔබට ගැලපෙන ක්‍රමය තෝරන්න</p>
-
-      <div class="mt-12 grid md:grid-cols-2 gap-8">
-        <!-- Physical -->
-        <div class="card-hover bg-blue-50 border-l-4 border-blue-700 rounded-xl p-8 text-left">
-          <div class="flex items-center mb-4">
-            <i data-lucide="building-2" class="w-7 h-7 text-blue-700"></i>
-            <h3 class="ml-3 text-2xl font-semibold text-blue-900">භෞතික පන්ති</h3>
-          </div>
-          <ul class="space-y-3 text-gray-700">
-            <li><i data-lucide="calendar" class="inline w-5 h-5 mr-2 text-blue-600"></i>සෙනසුරාදා</li>
-            <li><i data-lucide="clock" class="inline w-5 h-5 mr-2 text-blue-600"></i>ප.ව. 3:00 - 5:30</li>
-            <li><i data-lucide="map-pin" class="inline w-5 h-5 mr-2 text-blue-600"></i>සිසුර - මොන්ටානා උසස් අධ්‍යාපන ආයතනය, ගම්පහ</li>
-          </ul>
+    <footer class="bg-gray-800 text-white mt-12 py-10">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h3 class="text-2xl font-bold text-blue-400">තිමානි දහනායකගේ ICT පන්ති</h3>
+            <p class="text-base text-gray-400 mt-2">
+                ඔබේ අනාගතය සඳහා නිවැරදි තීරණය ගන්න.
+            </p>
+            <div class="mt-8">
+                 <a href="https://wa.me/94721386936" target="_blank"
+                    class="bg-green-600 text-white font-bold py-3 px-6 rounded-lg text-lg inline-flex items-center hover:bg-green-700 transition">
+                    WhatsApp හරහා සම්බන්ධ වන්න
+                </a>
+            </div>
         </div>
+    </footer>
 
-        <!-- Online -->
-        <div class="card-hover bg-green-50 border-l-4 border-green-700 rounded-xl p-8 text-left">
-          <div class="flex items-center mb-4">
-            <i data-lucide="laptop" class="w-7 h-7 text-green-700"></i>
-            <h3 class="ml-3 text-2xl font-semibold text-green-900">මාර්ගගත (Online)</h3>
-          </div>
-          <ul class="space-y-3 text-gray-700">
-            <li><i data-lucide="calendar" class="inline w-5 h-5 mr-2 text-green-600"></i>සෙනසුරාදා</li>
-            <li><i data-lucide="clock" class="inline w-5 h-5 mr-2 text-green-600"></i>ප.ව. 7:00 - 9:00</li>
-            <li><i data-lucide="globe" class="inline w-5 h-5 mr-2 text-green-600"></i>Zoom / Google Meet හරහා සජීවීව</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+    <script>
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+        
+        // Use theme colors
+        const chartColors = {
+            primaryAccent: '#1D4ED8', // blue-700
+            secondaryAccent: '#3B82F6', // blue-500
+            tertiary: '#BFDBFE', // blue-200
+            text: '#1F2937' // gray-800
+        };
 
-  <!-- Blog / Notes -->
-  <section id="blog" class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-      <h2 class="text-3xl font-bold text-gray-900">Notes (සටහන්)</h2>
-      <p class="mt-2 text-gray-600">ICT උපදෙස්, විභාග විශේෂණ සහ විෂය කරුණු</p>
+        const defaultChartOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: chartColors.text,
+                        font: {
+                            size: 14,
+                            family: 'Noto Sans Sinhala, Inter, sans-serif'
+                        }
+                    },
+                    boxWidth: 20 
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    },
+                    backgroundColor: chartColors.primaryAccent, 
+                    titleColor: 'white',
+                    bodyColor: 'white',
+                    bodyFont: {
+                        size: 14
+                    },
+                    titleFont: {
+                        size: 16,
+                        weight: 'bold'
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    border: { display: false },
+                    grid: {
+                        color: '#E5E7EB', /* gray-200 */
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: chartColors.text,
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+                x: {
+                    border: { display: false },
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: chartColors.text,
+                        font: {
+                            size: 12
+                        }
+                    }
+                }
+            }
+        };
 
-      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Post -->
-        <div class="card-hover bg-white rounded-xl shadow-md overflow-hidden flex flex-col">
-          <img src="https://placehold.co/600x400/3B82F6/FFFFFF?text=Lesson+01" alt="Databases" class="h-48 w-full object-cover">
-          <div class="p-6 flex-grow text-left">
-            <span class="text-sm text-blue-600 font-medium">දත්ත සහ තොරතුරු</span>
-            <h3 class="mt-2 text-xl font-semibold">මූලික සංකල්ප තේරුම් ගැනීම</h3>
-            <p class="mt-3 text-gray-600">A/L විෂය නිර්දේශය සඳහා මූලික සංකල්ප.</p>
-          </div>
-          <div class="p-6 bg-gray-50 text-left">
-            <a href="syllabus/AL_ICT_Lesson_01.html" class="text-blue-700 font-medium hover:underline">වැඩිදුර කියවන්න →</a>
-          </div>
-        </div>
+        new Chart(document.getElementById('languageChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['ඉංග්‍රීසි (ගෝලීය සම්පත් 95%)', 'වෙනත් භාෂා (5%)'],
+                datasets: [{
+                    label: 'තාක්ෂණික සම්පත්වල භාෂාව',
+                    data: [95, 5],
+                    backgroundColor: [
+                        chartColors.primaryAccent,
+                        chartColors.tertiary
+                    ],
+                    borderColor: 'white',
+                    borderWidth: 4 
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                cutout: '75%', 
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: chartColors.text,
+                            font: {
+                                size: 14,
+                                family: 'Noto Sans Sinhala, Inter, sans-serif'
+                            },
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        },
+                        backgroundColor: chartColors.primaryAccent,
+                        titleColor: 'white',
+                        bodyColor: 'white',
+                    }
+                }
+            }
+        });
 
-        <div class="card-hover bg-white rounded-xl shadow-md overflow-hidden flex flex-col">
-          <img src="https://placehold.co/600x400/10B981/FFFFFF?text=Python" alt="Python" class="h-48 w-full object-cover">
-          <div class="p-6 flex-grow text-left">
-            <span class="text-sm text-green-600 font-medium">ක්‍රමලේඛනය</span>
-            <h3 class="mt-2 text-xl font-semibold">Python ප්‍රශ්න සඳහා උපදෙස් 5ක්</h3>
-            <p class="mt-3 text-gray-600">Python යනු නව විෂය නිර්දේශයේ ප්‍රධාන කොටසකි.</p>
-          </div>
-          <div class="p-6 bg-gray-50 text-left">
-            <a href="#" class="text-blue-700 font-medium hover:underline">වැඩිදුර කියවන්න →</a>
-          </div>
-        </div>
+        new Chart(document.getElementById('universityChart'), {
+            type: 'bar',
+            data: {
+                labels: [
+                    ['තාක්ෂණික අවබෝධය', '(Technical Comprehension)'], 
+                    'දේශන අවබෝධය', 
+                    ['හැඩගැසීමේ පහසුව', '(Ease of Adaptation)']
+                ],
+                datasets: [
+                    {
+                        label: 'ඉංග්‍රීසි මාධ්‍ය ශිෂ්‍යයා',
+                        data: [90, 95, 85],
+                        backgroundColor: chartColors.primaryAccent,
+                        borderRadius: 6 
+                    },
+                    {
+                        label: 'සිංහල මාධ්‍ය ශිෂ්‍යයා',
+                        data: [40, 35, 30],
+                        backgroundColor: chartColors.tertiary,
+                        borderRadius: 6 
+                    }
+                ]
+            },
+            options: defaultChartOptions
+        });
 
-        <div class="card-hover bg-white rounded-xl shadow-md overflow-hidden flex flex-col">
-          <img src="https://placehold.co/600x400/8B5CF6/FFFFFF?text=Networking" alt="Networking" class="h-48 w-full object-cover">
-          <div class="p-6 flex-grow text-left">
-            <span class="text-sm text-purple-600 font-medium">ජාලකරණය</span>
-            <h3 class="mt-2 text-xl font-semibold">OSI ආකෘතිය සරලව</h3>
-            <p class="mt-3 text-gray-600">OSI ආකෘතියේ ස්ථර 7 සරලව පැහැදිලි කරමු.</p>
-          </div>
-          <div class="p-6 bg-gray-50 text-left">
-            <a href="#" class="text-blue-700 font-medium hover:underline">වැඩිදුර කියවන්න →</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact" class="py-20 bg-gradient-to-br from-blue-800 to-blue-900 text-white text-center">
-    <div class="max-w-3xl mx-auto px-6">
-      <h2 class="text-4xl font-extrabold">සම්බන්ධ වීමට සූදානම්ද?</h2>
-      <p class="mt-4 text-lg text-blue-100">WhatsApp හරහා සජීවීව ලියාපදිංචි වන්න.</p>
-
-      <div class="mt-10">
-        <a href="https://wa.me/94721386936" target="_blank"
-          class="whatsapp-button inline-flex items-center justify-center text-white font-bold py-4 px-8 rounded-xl text-2xl shadow-lg">
-          <svg class="w-8 h-8 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163..."/></svg>
-          WhatsApp: 072 138 6936
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-gray-400 py-8 text-center text-sm">
-    <p>&copy; 2025 තිමානි දහනායක. සියලු හිමිකම් ඇවිරිණි.</p>
-    <p class="text-gray-500">2027 A/L ICT සිසුන් සඳහා නිර්මාණය කරන ලදි.</p>
-  </footer>
-
-  <script>lucide.createIcons();</script>
+        new Chart(document.getElementById('careerChart'), {
+            type: 'bar',
+            data: {
+                labels: [
+                    ['ඉංග්‍රීසි මාධ්‍ය', 'වෘත්තීය මාර්ගය'],
+                    ['සිංහල මාධ්‍ය', 'වෘත්තීය මාර්ගය']
+                ],
+                datasets: [{
+                    label: 'වසර 5ක ආදායම් වර්ධන විභවය (%)',
+                    data: [300, 75],
+                    backgroundColor: [
+                        chartColors.primaryAccent,
+                        chartColors.tertiary
+                    ],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                ...defaultChartOptions,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        ...defaultChartOptions.scales.y, 
+                        max: 320 
+                    },
+                    y: {
+                        ...defaultChartOptions.scales.x 
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>

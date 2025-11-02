@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>උසස් පෙළ ICT: ඉංග්‍රීසි මාධ්‍යයේ අත්‍යවශ්‍යතාව</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+            color: #3C4043;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 380px;
+            max-height: 450px;
+        }
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 300px;
+                max-height: 350px;
+            }
+        }
+        .process-step {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .process-step:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 25px -5px rgba(26, 115, 232, 0.3);
+        }
+        .connector {
+            background-color: #AECBFA;
+        }
+        .process-icon {
+            color: #1A73E8;
+            background-color: #E8F0FE;
+            border-radius: 50%;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body class="text-[#3C4043]">
+    
+    <header class="bg-white shadow-lg py-10 sm:py-16">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#1A73E8] mb-4">
+                අනාගතය සඳහා ආයෝජනය: ICT ඉංග්‍රීසි මාධ්‍යයේ විප්ලවය
+            </h1>
+            <p class="text-lg sm:text-xl text-[#4285F4] max-w-4xl mx-auto font-medium">
+                උසස් පෙළ ICT ඉංග්‍රීසි මාධ්‍යයෙන් හැදෑරීම, ගෝලීය තාක්ෂණික කර්මාන්තයේ සාර්ථකත්වය සඳහා ඇති එකම උපායමාර්ගික තීරණය වන්නේ කෙසේද?
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-4 sm:p-8">
+        <div class="grid grid-cols-1 gap-6 sm:gap-8">
+
+            <div class="card md:col-span-1">
+                <h2 class="text-3xl font-bold text-[#1A73E8] mb-4 text-center">
+                    ගෝලීය තාක්ෂණික දැනුමට සෘජු ප්‍රවේශය
+                </h2>
+                <p class="text-base sm:text-lg text-[#3C4043] mb-8 text-center max-w-3xl mx-auto">
+                    නවීන තාක්ෂණය, කේතීකරණය සහ පර්යේෂණ ලේඛන සියල්ලම පාහේ ඉංග්‍රීසියෙන් පවතින බැවින්, ඉංග්‍රීසි ප්‍රවීණතාවය යනු ගෝලීය දැනුම් සම්භාරයට ඇති සෘජු දොරටුවයි. සිංහල මාධ්‍යයෙන් ඉගෙනීමෙන් ලැබෙන 'පරිවර්තන ප්‍රමාදයට' මෙහිදී මුහුණ දීමට සිදු නොවේ.
+                </p>
+                <div class="flex flex-col lg:flex-row items-center gap-10">
+                    <div class="w-full lg:w-2/5">
+                        <div class="chart-container" style="max-width: 400px; height: 320px;">
+                            <canvas id="languageChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-3/5 space-y-4">
+                        <div class="bg-[#E8F0FE] p-4 rounded-lg flex items-start shadow-sm hover:shadow-md transition">
+                            <span class="process-icon text-2xl mr-4">💻</span>
+                            <div>
+                                <h4 class="font-semibold text-[#1A73E8]">කේතීකරණයේ භාෂාව (Language of Code)</h4>
+                                <p class="text-sm">සියලුම ප්‍රධාන Programming Languages, APIs සහ Frameworks ඉංග්‍රීසි පදනම් කරගෙන ඇත.</p>
+                            </div>
+                        </div>
+                        <div class="bg-[#E8F0FE] p-4 rounded-lg flex items-start shadow-sm hover:shadow-md transition">
+                            <span class="process-icon text-2xl mr-4">📚</span>
+                            <div>
+                                <h4 class="font-semibold text-[#1A73E8]">නවතම තාක්ෂණික ලේඛන</h4>
+                                <p class="text-sm">නවීන පර්යේෂණ පත්‍රිකා සහ ක්ෂණික විසඳුම් (Stack Overflow, Documentation) සඳහා ප්‍රමාදයකින් තොරව ප්‍රවේශය.</p>
+                            </div>
+                        </div>
+                        <div class="bg-[#E8F0FE] p-4 rounded-lg flex items-start shadow-sm hover:shadow-md transition">
+                            <span class="process-icon text-2xl mr-4">📈</span>
+                            <div>
+                                <h4 class="font-semibold text-[#1A73E8]">වේගවත් වර්ධනය</h4>
+                                <p class="text-sm">තාක්ෂණික දැනුම යාවත්කාලීන කිරීමට ඇති හැකියාව වෘත්තීය වර්ධනයට සෘජුවම බලපායි.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card md:col-span-1">
+                <h2 class="text-3xl font-bold text-[#1A73E8] mb-4 text-center">
+                    විශ්වවිද්‍යාල සහ උසස් අධ්‍යාපන සූදානම
+                </h2>
+                <p class="text-base sm:text-lg text-[#3C4043] mb-8 text-center max-w-3xl mx-auto">
+                    ශ්‍රී ලංකාවේ ප්‍රමුඛ ICT/ඉංජිනේරු විශ්වවිද්‍යාලවල (මොරටුව, කොළඹ) සහ ජාත්‍යන්තර උපාධි පාඨමාලාවල ප්‍රධාන ඉගැන්වීමේ මාධ්‍යය ඉංග්‍රීසියයි. ඉංග්‍රීසි මාධ්‍යයෙන් A/L හැදෑරීම මෙම අභියෝගාත්මක පරිසරයට පහසුවෙන් මුහුණ දීමට ශිෂ්‍යයා සූදානම් කරයි.
+                </p>
+                <div class="chart-container">
+                    <canvas id="universityChart"></canvas>
+                </div>
+                <p class="text-center text-[#4285F4] mt-6 font-medium">
+                    මෙම සංසන්දනය මඟින් ඉංග්‍රීසි මාධ්‍ය සිසුන් මව් භාෂා සිසුන්ට වඩා විශ්වවිද්‍යාලයේදී තාක්ෂණික සංකල්ප, පන්ති කාමර දේශන සහ නව පරිසරයකට හැඩගැසීමට දක්වන ඉහළ හැකියාව පෙන්වා දෙයි.
+                </p>
+            </div>
+
+            <div class="card md:col-span-1">
+                <h2 class="text-3xl font-bold text-[#1A73E8] mb-4 text-center">
+                    වෘත්තීය ජීවිතයේ ආදායම් විභවය
+                </h2>
+                <p class="text-base sm:text-lg text-[#3C4043] mb-8 text-center max-w-3xl mx-auto">
+                    ICT ක්ෂේත්‍රයේ ඉහළම වැටුප් හිමිවන්නේ ජාත්‍යන්තර සේවාදායකයන් සමඟ සෘජුව කටයුතු කරන බහුජාතික සමාගම්වලය. ඉංග්‍රීසි ප්‍රවීණතාවය රැකියා අවස්ථාවන්හි ගුණාත්මක භාවය සහ ඉපැයීමේ විභවය (Earning Potential) තීරණය කරන ප්‍රධාන සාධකයකි.
+                </p>
+                <div class="chart-container">
+                    <canvas id="careerChart"></canvas>
+                </div>
+                 <p class="text-center text-[#4285F4] mt-6 font-medium">
+                    ඉංග්‍රීසි මාධ්‍යයෙන් ICT හැදෑරීම වෘත්තීය ජීවිතයේ පළමු වසර 5 තුළ **300%** දක්වා ආදායම් වර්ධන විභවයක් සඳහා දායක විය හැකි බව මෙම ප්‍රස්ථාරයෙන් පැහැදිලි වේ.
+                </p>
+            </div>
+
+            <div class="card md:col-span-1">
+                <h2 class="text-3xl font-bold text-[#1A73E8] mb-4 text-center">
+                    සාර්ථකත්වයට මඟ: ක්‍රියාවලි ප්‍රවාහය
+                </h2>
+                <p class="text-base sm:text-lg text-[#3C4043] mb-8 text-center max-w-3xl mx-auto">
+                    දෙමාපියන් සහ ගුරුවරුන් විසින් දරුවෙකුගේ අනාගතය සුරක්ෂිත කිරීම සඳහා අනුගමනය කළ යුතු තීරණාත්මක පියවර මාලාව.
+                </p>
+                
+                <div class="flex flex-col items-center justify-center space-y-6 md:space-y-0 md:flex-row md:justify-between">
+                    
+                    <div class="process-step flex-1 text-center bg-white p-6 rounded-xl shadow-lg w-full md:w-auto">
+                        <span class="process-icon inline-block text-4xl mb-3">1️⃣</span>
+                        <h3 class="text-lg font-extrabold text-[#1A73E8]">A/L ඉංග්‍රීසි මාධ්‍ය තේරීම</h3>
+                        <p class="text-sm text-[#3C4043]">ICT විෂය ඉංග්‍රීසියෙන් තෝරා ගැනීම.</p>
+                    </div>
+                    
+                    <div class="hidden md:flex w-16 items-center justify-center">
+                        <div class="connector w-full h-1 rounded-full"></div>
+                    </div>
+                    <div class="block md:hidden h-4 w-1 connector rounded-full"></div>
+
+                    <div class="process-step flex-1 text-center bg-white p-6 rounded-xl shadow-lg w-full md:w-auto">
+                        <span class="process-icon inline-block text-4xl mb-3">2️⃣</span>
+                        <h3 class="text-lg font-extrabold text-[#1A73E8]">උසස් අධ්‍යාපන යෝග්‍යතාව</h3>
+                        <p class="text-sm text-[#3C4043]">විශ්වවිද්‍යාල සඳහා තාක්ෂණික සහ භාෂාමය සූදානම.</p>
+                    </div>
+
+                    <div class="hidden md:flex w-16 items-center justify-center">
+                        <div class="connector w-full h-1 rounded-full"></div>
+                    </div>
+                    <div class="block md:hidden h-4 w-1 connector rounded-full"></div>
+
+                    <div class="process-step flex-1 text-center bg-white p-6 rounded-xl shadow-lg w-full md:w-auto">
+                        <span class="process-icon inline-block text-4xl mb-3">3️⃣</span>
+                        <h3 class="text-lg font-extrabold text-[#1A73E8]">ගෝලීය රැකියා තහවුරු කිරීම</h3>
+                        <p class="text-sm text-[#3C4043]">ඉහළ වැටුප් ලබන MNC/දුරස්ථ රැකියා සඳහා සුදුසුකම් ලැබීම.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-[#1A73E8] mt-8 sm:mt-12 py-10">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p class="text-2xl sm:text-3xl font-extrabold text-white">
+                අවසාන සාරාංශය: ගෝලීය අවස්ථාව
+            </p>
+            <p class="text-base sm:text-lg text-[#AECBFA] mt-4 max-w-3xl mx-auto">
+                උසස් පෙළ ICT ඉංග්‍රීසියෙන් හැදෑරීම යනු සිංහල මාධ්‍යයට එරෙහිව යාමක් නොව; එය ශිෂ්‍යයෙකුගේ ජීවිත කාලය පුරාම ඉගෙනීමට, තරඟ කිරීමට සහ ජාත්‍යන්තර වේදිකාවක සාර්ථක වීමට ඇති හැකියාව සඳහා වන <span class="font-bold text-white">තීරණාත්මක සහ ප්‍රශස්ත ආයෝජනයකි.</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+        
+        const chartColors = {
+            primaryAccent: '#1A73E8', 
+            secondaryAccent: '#4285F4',
+            tertiary: '#AECBFA',
+            text: '#3C4043' 
+        };
+
+        const defaultChartOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: chartColors.text,
+                        font: {
+                            size: 14
+                        }
+                    },
+                    boxWidth: 20 
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    },
+                    backgroundColor: 'rgba(26, 115, 232, 0.9)', 
+                    titleColor: 'white',
+                    bodyColor: 'white',
+                    bodyFont: {
+                        size: 14
+                    },
+                    titleFont: {
+                        size: 16,
+                        weight: 'bold'
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    border: { display: false },
+                    grid: {
+                        color: '#EDEDED', 
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: chartColors.text,
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+                x: {
+                    border: { display: false },
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: chartColors.text,
+                        font: {
+                            size: 12
+                        }
+                    }
+                }
+            }
+        };
+
+        new Chart(document.getElementById('languageChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['ඉංග්‍රීසි (ගෝලීය සම්පත්)', 'වෙනත් භාෂා'],
+                datasets: [{
+                    label: 'තාක්ෂණික සම්පත්වල භාෂාව',
+                    data: [95, 5],
+                    backgroundColor: [
+                        chartColors.primaryAccent,
+                        chartColors.tertiary
+                    ],
+                    borderColor: 'white',
+                    borderWidth: 4 
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                cutout: '70%', 
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: chartColors.text,
+                            font: {
+                                size: 14
+                            },
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        },
+                        backgroundColor: 'rgba(26, 115, 232, 0.9)',
+                        titleColor: 'white',
+                        bodyColor: 'white',
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('universityChart'), {
+            type: 'bar',
+            data: {
+                labels: [
+                    ['තාක්ෂණික අවබෝධය', '(Technical Comprehension)'], 
+                    'දේශන අවබෝධය', 
+                    ['හැඩගැසීමේ පහසුව', '(Ease of Adaptation)']
+                ],
+                datasets: [
+                    {
+                        label: 'ඉංග්‍රීසි මාධ්‍ය ශිෂ්‍යයා',
+                        data: [90, 95, 85],
+                        backgroundColor: chartColors.primaryAccent,
+                        borderRadius: 6 
+                    },
+                    {
+                        label: 'සිංහල මාධ්‍ය ශිෂ්‍යයා',
+                        data: [40, 35, 30],
+                        backgroundColor: chartColors.tertiary,
+                        borderRadius: 6 
+                    }
+                ]
+            },
+            options: defaultChartOptions
+        });
+
+        new Chart(document.getElementById('careerChart'), {
+            type: 'bar',
+            data: {
+                labels: [
+                    ['ඉංග්‍රීසි මාධ්‍ය', 'වෘත්තීය මාර්ගය'],
+                    ['සිංහල මාධ්‍ය', 'වෘත්තීය මාර්ගය']
+                ],
+                datasets: [{
+                    label: 'වසර 5ක ආදායම් වර්ධන විභවය (%)',
+                    data: [300, 75],
+                    backgroundColor: [
+                        chartColors.primaryAccent,
+                        chartColors.tertiary
+                    ],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                ...defaultChartOptions,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        ...defaultChartOptions.scales.y, 
+                        max: 320 
+                    },
+                    y: {
+                        ...defaultChartOptions.scales.x 
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
