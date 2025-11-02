@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sorting Studio — Apple-style</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg-1:#f3f7fb; --bg-2:#e9f0fb;
+    --panel-bg: rgba(255,255,255,0.6);
+    --panel-border: rgba(255,255,255,0.7);
+    --glass-blur: 14px;
+    --accent: #007aff;
+    --muted:#556677;
+    --bar:#3b82f6;
+    --compare:#ff9f43;
+    --swap:#ff3b30;
+    --sorted:#10b981;
+    --radius:16px;
+    --shadow: 0 10px 30px rgba(16,24,40,0.08);
+  }
+  *{box-sizing:border-box}
+  /*
+    FIX: Added padding-bottom: 100px to prevent the fixed dock from
+    overlapping the content at the bottom of the page.
+  */
+  html,body{
+    height:100%;
+    margin:0;
+    font-family:Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:linear-gradient(180deg,var(--bg-1),var(--bg-2));
+    color:#0b1726;
+    padding-bottom: 100px; /* This creates space for the fixed dock */
+  }
+  .studio {
+    max-width:1200px;margin:28px auto;padding:22px;border-radius:20px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.65), rgba(255,255,255,0.55));
+    border:1px solid var(--panel-border);backdrop-filter: blur(var(--glass-blur)); box-shadow:var(--shadow);
+    display:grid; grid-template-columns: 1fr 360px; gap:18px;
+  }
+
+  header.studio-head { display:flex;align-items:center;justify-content:space-between; gap:12px; margin-bottom:10px; }
+  .brand { display:flex; gap:12px; align-items:center; }
+  .logo { width:54px;height:54px;border-radius:12px;background:linear-gradient(135deg,#fff,#f0f6ff);display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 6px 18px rgba(0,0,0,0.06); }
+  h1{font-size:20px;margin:0 0 2px 0;font-weight:700}
+  .subtitle{font-size:13px;color:var(--muted);margin:0}
+
+  /* center stage */
+  .stage { background:transparent;padding:8px;border-radius:12px; display:flex; flex-direction:column; gap:12px; }
+  .toolbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+
+  select, input[type=range], button {
+    font-family: inherit; font-size:14px;
+  }
+
+  .control {
+    background:rgba(255,255,255,0.85); border-radius:12px; padding:8px 10px; border:1px solid rgba(15,23,42,0.04);
+    box-shadow: 0 6px 18px rgba(13,38,75,0.04);
+  }
+
+  .control.small{ padding:6px 8px; border-radius:10px }
+  .btn {
+    background: linear-gradient(180deg,var(--accent),#005ddc); color:white;border:none;padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer;
+    box-shadow:0 8px 20px rgba(0,122,255,0.12);
+  }
+  .btn.ghost{ background:transparent;color:var(--muted);border:1px solid rgba(11,23,38,0.06); box-shadow:none }
+  .btn.small{ padding:6px 10px; border-radius:10px; font-weight:600 }
+
+  /* main visual area (single) */
+  .visual {
+    background: rgba(255,255,255,0.4); border-radius:14px; padding:14px; min-height:320px; display:flex; flex-direction:column; gap:10px; justify-content:center;
+    border:1px solid rgba(11,23,38,0.03);
+  }
+  .bars-wrap { display:flex; align-items:flex-end; justify-content:center; gap:10px; height:240px; padding:10px; transition:all .18s ease; }
+  .bar {
+    width:38px; border-radius:10px; background:var(--bar); display:flex;align-items:flex-end;justify-content:center;color:white;font-weight:700;font-size:12px;
+    box-shadow: 0 6px 16px rgba(59,130,246,0.12);
+    transition: transform .18s ease, box-shadow .18s ease, background .12s;
+  }
+  .bar.state-compare{ background: var(--compare); box-shadow:0 10px 26px rgba(255,159,67,0.12); transform:translateY(-6px) scale(1.03) }
+  .bar.state-swap{ background: var(--swap); box-shadow:0 10px 26px rgba(255,59,48,0.12); transform:translateY(-8px) scale(1.05) }
+  .bar.state-sorted{ background: var(--sorted); box-shadow:0 6px 20px rgba(16,185,129,0.08); transform:translateY(-4px) }
+  .bar .label { padding:6px 4px; opacity:0.98 }
+
+  /* pseudocode */
+  .pseudocode {
+    background: rgba(11,23,38,0.02); border-radius:10px; padding:10px; font-family: Roboto Mono, monospace; color:#092033; font-size:13px;
+    border:1px solid rgba(11,23,38,0.03);
+  }
+  .code-line { padding:4px 8px; border-radius:6px; }
+  .code-line.active { background: linear-gradient(90deg, rgba(0,122,255,0.08), rgba(0,122,255,0.03)); box-shadow: inset 0 2px 8px rgba(0,122,255,0.04); }
+
+  /* right column */
+  .side {
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .card { background:rgba(255,255,255,0.8); padding:12px;border-radius:12px;border:1px solid rgba(11,23,38,0.03); }
+  .cards-grid{ display:grid; gap:10px; }
+
+  .complexity { font-family: Roboto Mono, monospace; font-size:13px; color:#07304a }
+
+  /*
+    REMOVED: Race view CSS
+  */
+
+  /* floating bottom dock (iOS style) */
+  .dock {
+    position:fixed; left:50%; transform:translateX(-50%); bottom:18px; width:min(980px,94%); display:flex; justify-content:space-between; align-items:center; gap:12px;
+    padding:10px 14px; border-radius:18px; background:rgba(255,255,255,0.78); border:1px solid rgba(11,23,38,0.04); box-shadow:0 18px 40px rgba(16,24,40,0.08);
+    backdrop-filter: blur(10px);
+    z-index: 100; /* Ensure it stays on top */
+  }
+  .dock .group{ display:flex; gap:10px; align-items:center }
+  .muted{ color:var(--muted); font-size:13px }
+
+  @media (max-width:980px){
+    .studio{ grid-template-columns: 1fr; padding:18px }
+    .side{ order:2 }
+    .dock{ width:94% }
+  }
+</style>
+</head>
+<body>
+
+<div class="studio" role="application" aria-label="Sorting Studio">
+  <div>
+    <header class="studio-head">
+      <div class="brand">
+        <div class="logo">⚙️</div>
+        <div>
+          <h1>Sorting Studio</h1>
+          <!-- REMOVED: "Race view" from subtitle -->
+          <div class="subtitle">Interactive visualizations • Step mode • Pseudocode</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="control small">
+          <label style="display:block;font-size:12px;color:var(--muted)">Algorithm</label>
+          <select id="algoSelect">
+            <option value="bubble">Bubble Sort</option>
+            <option value="selection">Selection Sort</option>
+            <option value="insertion">Insertion Sort</option>
+            <option value="merge">Merge Sort</option>
+            <option value="quick">Quick Sort</option>
+          </select>
+        </div>
+
+        <div class="control small">
+          <label style="display:block;font-size:12px;color:var(--muted)">Array Size</label>
+          <select id="sizeSelect">
+            <option>8</option><option selected>10</option><option>12</option><option>16</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <section class="stage">
+      <div class="toolbar">
+        <div class="control">
+          <button class="btn small" id="stepBtn">Step</button>
+          <button class="btn small" id="playBtn">Play</button>
+          <button class="btn ghost small" id="resetBtn">Reset</button>
+        </div>
+
+        <div class="control">
+          <label style="font-size:12px;color:var(--muted)">Speed</label>
+          <input id="speedRange" type="range" min="30" max="900" value="260" />
+        </div>
+
+        <div class="control">
+          <label style="font-size:12px;color:var(--muted)">Presets</label>
+          <div style="display:flex;gap:8px;margin-top:6px">
+            <button class="btn ghost small" id="presetRandom">Random</button>
+            <button class="btn ghost small" id="presetReverse">Reverse</button>
+            <button class="btn ghost small" id="presetNearly">Nearly</button>
+          </div>
+        </div>
+
+        <div style="margin-left:auto" class="control small">
+          <label style="font-size:12px;color:var(--muted)">Mode</label>
+          <select id="modeSelect">
+            <option value="auto">Auto Play</option>
+            <option value="step">Step-by-step</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Main visual -->
+      <div class="visual" aria-live="polite">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;gap:10px;align-items:center">
+            <div style="font-weight:700">Visualization</div>
+            <div class="muted">Algorithm: <span id="currentAlgo">Bubble Sort</span></div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:center">
+            <div class="muted">Comparisons: <strong id="compCount">0</strong></div>
+            <div class="muted">Swaps: <strong id="swpCount">0</strong></div>
+          </div>
+        </div>
+
+        <div id="barsWrap" class="bars-wrap" aria-hidden="false"></div>
+
+        <!--
+          FIX: Removed the redundant pseudocode box from this main visual area.
+          It's already present in the sidebar.
+        -->
+
+      </div>
+
+    </section>
+  </div>
+
+  <!-- Right column -->
+  <aside class="side">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-weight:700">Pseudocode</div>
+          <div class="muted" style="font-size:13px">Highlights the active line as algorithm runs</div>
+        </div>
+        <button id="togglePcode" class="btn ghost small">Toggle</button>
+      </div>
+      <div style="height:12px"></div>
+      <div id="pcard" class="pseudocode" style="max-height:240px;overflow:auto"></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:700">Algorithm Complexity</div>
+        <div class="muted" id="complexityName">—</div>
+      </div>
+      <div style="height:10px"></div>
+      <div class="complexity" id="complexityCard">
+        <div>Time (Worst / Avg / Best): <strong id="timeComplex">—</strong></div>
+        <div>Space: <strong id="spaceComplex">—</strong></div>
+      </div>
+    </div>
+
+    <!--
+      REMOVED: Race Mode card
+    -->
+
+  </aside>
+</div>
+
+<!-- floating dock -->
+<div class="dock" role="toolbar" aria-label="Controls">
+  <div class="group">
+    <button id="genBtn" class="btn small">Generate</button>
+    <button id="shuffleBtn" class="btn ghost small">Shuffle</button>
+    <div class="muted">Preset:</div>
+    <select id="presetDock" class="control small">
+      <option value="random">Random</option>
+      <option value="reverse">Reverse</option>
+      <option value="nearly">Nearly sorted</option>
+    </select>
+  </div>
+
+  <div class="group">
+    <div class="muted">Mode</div>
+    <select id="dockMode" class="control small">
+      <option value="auto">Auto</option><option value="step">Step</option>
+    </select>
+    <div class="muted">Speed</div>
+    <input id="dockSpeed" type="range" min="30" max="900" value="260">
+  </div>
+
+  <div class="group">
+    <div class="muted">Status:</div>
+    <div id="studioStatus" style="font-weight:700">Ready</div>
+  </div>
+</div>
+
+<script>
+/* ---------------------------
+    Core: generator-based step engine
+    --------------------------- */
+
+const DEFAULT_SIZE = 10;
+let state = {
+  arr: [],
+  bars: [],
+  mode: 'auto', // 'auto' | 'step'
+  speed: 260,
+  algo: 'bubble',
+  running: false,
+  comp:0, swp:0
+};
+
+const ALGO_PSEUDO = {
+  bubble: {
+    title: 'Bubble Sort',
+    pseudo: [
+      'for i from 0 to n-2:',
+      '  for j from 0 to n-2-i:',
+      '    compare A[j] and A[j+1]',
+      '    if A[j] > A[j+1]:',
+      '      swap A[j], A[j+1]'
+    ],
+    complexity: { time: 'O(n²) / O(n²) / O(n)', space: 'O(1)' }
+  },
+  selection: {
+    title: 'Selection Sort',
+    pseudo: [
+      'for i from 0 to n-2:',
+      '  min = i',
+      '  for j from i+1 to n-1:',
+      '    if A[j] < A[min]: min = j',
+      '  swap A[i], A[min]'
+    ],
+    complexity: { time: 'O(n²) / O(n²) / O(n²)', space: 'O(1)' }
+  },
+  insertion: {
+    title: 'Insertion Sort',
+    pseudo: [
+      'for i from 1 to n-1:',
+      '  key = A[i]',
+      '  j = i-1',
+      '  while j >= 0 and A[j] > key:',
+      '    A[j+1] = A[j]; j--',
+      '  A[j+1] = key'
+    ],
+    complexity: { time: 'O(n²) / O(n²) / O(n)', space:'O(1)' }
+  },
+  merge: {
+    title: 'Merge Sort',
+    pseudo:[
+      'if length > 1:',
+      '  split array into halves',
+      '  merge(sort(left), sort(right))'
+    ],
+    complexity:{ time:'O(n log n) / O(n log n) / O(n log n)', space:'O(n)' }
+  },
+  quick: {
+    title:'Quick Sort',
+    pseudo:[
+      'if low < high:',
+      '  pivot = partition(A, low, high)',
+      '  quicksort(A, low, pivot-1)',
+      '  quicksort(A, pivot+1, high)'
+    ],
+    complexity:{ time:'O(n²) / O(n log n) / O(n log n)', space:'O(log n)' }
+  }
+};
+
+/* Utilities */
+function el(sel){ return document.querySelector(sel); }
+function elAll(sel){ return Array.from(document.querySelectorAll(sel)); }
+function setStatus(txt){ el('#studioStatus').textContent = txt; }
+function wait(ms){ return new Promise(r=>setTimeout(r, ms)); }
+
+/* Rendering */
+function renderBars(container, arr, options={}){
+  container.innerHTML = '';
+  arr.forEach((v, i)=>{
+    const d = document.createElement('div');
+    d.className = 'bar';
+    d.style.height = (Math.max(30, Math.round(v))) + 'px'; // Use Math.round for consistency
+    d.dataset.index = i;
+    d.innerHTML = `<div class="label">${Math.round(v)}</div>`; // Use Math.round
+    if(options.classFor && options.classFor(i)) d.classList.add(options.classFor(i));
+    container.appendChild(d);
+  });
+}
+
+/* Create arrays */
+function makeArray(size=DEFAULT_SIZE, preset='random'){
+  let a = [];
+  if(preset==='random'){
+    for(let i=0;i<size;i++) a.push(Math.floor(Math.random()*220)+30);
+  } else if(preset==='reverse'){
+    for(let i=size;i>0;i--) a.push(Math.floor((i/size)*220)+30);
+  } else if(preset==='nearly'){
+    for(let i=0;i<size;i++) a.push(Math.floor(Math.random()*220)+30);
+    // sort and swap a few
+    a.sort((x,y)=>x-y);
+    for(let s=0;s<Math.max(1,Math.floor(size*0.08));s++){
+      const i = Math.floor(Math.random()*size);
+      const j = Math.min(size-1, i+1);
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+  }
+  return a;
+}
+
+/* Step Generators: produce actions {type, a, b, arrSnapshot, line} */
+function* generatorBubble(arr){
+  const n=arr.length;
+  for(let i=0;i<n-1;i++){
+    for(let j=0;j<n-i-1;j++){
+      yield {type:'compare', a:j, b:j+1, line:2};
+      if(arr[j] > arr[j+1]){
+        yield {type:'swap', a:j, b:j+1, line:4}; // Line 4 for swap visualization
+        [arr[j], arr[j+1]] = [arr[j+1], arr[j]]; // Perform actual swap on array reference
+      }
+    }
+    yield {type:'markSorted', index:n-1-i, line:0}; // Line 0 for outer loop
+  }
+  yield {type:'done'};
+}
+function* generatorSelection(arr){
+  const n=arr.length;
+  for(let i=0;i<n-1;i++){
+    let min=i;
+    yield {type:'selectMin', index:min, line:1}; // Line 1 for min=i
+    for(let j=i+1;j<n;j++){
+      yield {type:'compare', a:j, b:min, line:2}; // Line 2 for loop
+      if(arr[j] < arr[min]){
+        min=j;
+        yield {type:'selectMin', index:min, line:3}; // Line 3 for new min
+      }
+    }
+    if(min!==i){
+      yield {type:'swap', a:i, b:min, line:4}; // Line 4 for swap visualization
+      [arr[i], arr[min]] = [arr[min], arr[i]]; // Perform actual swap on array reference
+    }
+    yield {type:'markSorted', index:i, line:0}; // Line 0 for outer loop
+  }
+  yield {type:'done'};
+}
+function* generatorInsertion(arr){
+  const n=arr.length;
+  for(let i=1;i<n;i++){
+    let key = arr[i];
+    let j=i-1;
+    yield {type:'setKey', index:i, line:1}; // Line 1 for key
+    while(j>=0 && arr[j] > key){
+      yield {type:'compare', a:j, b:i, line:3}; // Line 3 for while
+      arr[j+1] = arr[j]; // assignment on array reference
+      yield {type:'move', from:j, to:j+1, line:4}; // Line 4 for move
+      j--;
+    }
+    arr[j+1] = key; // assignment on array reference
+    yield {type:'insert', index:j+1, value:key, line:5}; // Line 5 for insert
+  }
+  yield {type:'done'};
+}
+function* generatorMerge(arr){
+  // We'll drive merge sort by performing top-level recursive simulation for visualization using iterative merges.
+  const n=arr.length;
+  let width=1;
+  while(width < n){
+    for(let i=0;i<n; i+=2*width){
+      let left=i, mid=Math.min(i+width, n), right=Math.min(i+2*width, n);
+      // simulate merging step by step
+      let L = arr.slice(left, mid), R = arr.slice(mid, right);
+      let k=left;
+      let li=0, ri=0;
+      while(li < L.length || ri < R.length){
+        if(ri >= R.length || (li < L.length && L[li] <= R[ri])){
+          yield {type:'compare', a:left+li, b:mid+ri, line:2};
+          arr[k++] = L[li++]; // assignment on array reference
+        } else {
+          yield {type:'compare', a:left+li, b:mid+ri, line:2};
+          arr[k++] = R[ri++]; // assignment on array reference
+        }
+      }
+    }
+    width *= 2;
+    yield {type:'pass', line:0};
+  }
+  yield {type:'done'};
+}
+function* generatorQuick(arr){
+  // simple Lomuto partition quicksort using explicit stack for visualization
+  const stack = [[0, arr.length-1]];
+  while(stack.length){
+    const [low, high] = stack.pop();
+    if(low < high){
+      let pivot = arr[high];
+      let i = low;
+      yield {type:'setKey', index:high, line:1}; // set pivot visualization
+      for(let j=low;j<high;j++){
+        yield {type:'compare', a:j, b:high, line:1};
+        if(arr[j] < pivot){
+          yield {type:'swap', a:i, b:j, line:1}; // visualization
+          [arr[i], arr[j]] = [arr[j], arr[i]]; // Perform actual swap on array reference
+          i++;
+        }
+      }
+      yield {type:'swap', a:i, b:high, line:1}; // final pivot swap visualization
+      [arr[i], arr[high]] = [arr[high], arr[i]]; // Perform actual swap on array reference
+      stack.push([i+1, high]);
+      stack.push([low, i-1]);
+      yield {type:'pass', line:0};
+    }
+  }
+  yield {type:'done'};
+}
+
+/* Map algo key to generator factory */
+const ALGO_GEN = {
+  bubble: generatorBubble,
+  selection: generatorSelection,
+  insertion: generatorInsertion,
+  merge: generatorMerge,
+  quick: generatorQuick
+};
+
+/* Engine: runs generator, updates UI */
+let engine = null;
+let engineArr = [];
+let engineGen = null;
+
+function resetEngine(arr, algo){
+  engineArr = arr.slice(); // Main array for visualization
+  // FIX: Pass engineArr (by reference) to the generator so the generator's internal logic
+  // modifies the array that the UI reads from.
+  engineGen = ALGO_GEN[algo](engineArr);
+  state.comp = 0; state.swp = 0;
+  updateCounters();
+}
+
+function updateCounters(){ el('#compCount').textContent = state.comp; el('#swpCount').textContent = state.swp; }
+
+function highlightPseudocode(algo, lineIndex){
+  // render pseudocode with active line highlighted
+  const box = el('#pcard');
+  const p = ALGO_PSEUDO[algo].pseudo;
+  box.innerHTML = '';
+  p.forEach((ln, i)=>{
+    const div = document.createElement('div');
+    div.className = 'code-line' + (i===lineIndex ? ' active' : '');
+    div.textContent = ln;
+    box.appendChild(div);
+  });
+}
+
+/* Step application: take a single action and apply */
+function applyStep(action, arr, container, options={}) {
+  // clear previous transient states
+  elAll('.bar').forEach(b=>{ b.classList.remove('state-compare','state-swap','state-sorted'); });
+  if(!action) return;
+
+  switch(action.type){
+    case 'compare':
+      state.comp++;
+      markBars(container, action.a, 'state-compare');
+      markBars(container, action.b, 'state-compare'); // Mark both
+      highlightPseudocode(state.algo, action.line || 0);
+      break;
+    case 'swap':
+      state.swp++;
+      // FIX: REMOVED the redundant swap here. The generator now modifies 'arr'
+      // directly (by reference) before yielding the action.
+      // [arr[action.a], arr[action.b]] = [arr[action.b], arr[action.a]];
+      renderBars(container, arr, { classFor: (i)=> (i===action.a||i===action.b)?'state-swap':null });
+      highlightPseudocode(state.algo, action.line || 0);
+      break;
+    case 'selectMin':
+      markBars(container, action.index, 'state-compare');
+      highlightPseudocode(state.algo, action.line || 0);
+      break;
+    case 'markSorted':
+      markBars(container, action.index, 'state-sorted'); break;
+    case 'move':
+    case 'insert':
+    case 'setKey':
+      renderBars(container, arr); // Re-render to show moves/insertions
+      if (action.index) markBars(container, action.index, 'state-compare');
+      highlightPseudocode(state.algo, action.line || 0);
+      break;
+    case 'pass':
+      highlightPseudocode(state.algo, action.line || 0);
+      break;
+    case 'done':
+      // mark all sorted
+      renderBars(container, arr, { classFor: (i)=> 'state-sorted' });
+      highlightPseudocode(state.algo, -1);
+      setStatus('Completed');
+      state.running = false;
+      break;
+  }
+  updateCounters();
+}
+
+/* mark 1 or 2 bars with a state */
+function markBars(container, idx, cls){
+  const children = container.children;
+  if(children[idx]) children[idx].classList.add(cls);
+}
+
+/* Play loop */
+let playLoop = null;
+async function runAuto(container){
+  if(!engineGen) return;
+  state.running = true;
+  setStatus('Running');
+  while(true){
+    if(state.mode === 'step') { state.running = false; setStatus('Paused (step)'); break; }
+    const next = engineGen.next();
+    if(next.done) { applyStep({type:'done'}, engineArr, container); break; }
+    applyStep(next.value, engineArr, container);
+    // if not swap, we rerender the bar heights since the array state might have changed (e.g. merge/insert)
+    if(next.value.type !== 'swap') renderBars(container, engineArr);
+    await wait(1000 - state.speed); // Invert speed: 900=fast, 30=slow
+  }
+}
+
+/* Step once */
+function stepOnce(container){
+  if(!engineGen) return;
+  if(state.running) return; // Don't step if auto-playing
+  const next = engineGen.next();
+  if(next.done){ applyStep({type:'done'}, engineArr, container); return; }
+  applyStep(next.value, engineArr, container);
+  // Re-render after step, except for swap which already re-renders inside applyStep
+  if(next.value.type !== 'swap') renderBars(container, engineArr);
+}
+
+/* UI wiring */
+const barsWrap = el('#barsWrap');
+const algoSelect = el('#algoSelect');
+const sizeSelect = el('#sizeSelect');
+const modeSelect = el('#modeSelect');
+const speedRange = el('#speedRange');
+const stepBtn = el('#stepBtn');
+const playBtn = el('#playBtn');
+const resetBtn = el('#resetBtn');
+const presetRandom = el('#presetRandom');
+const presetReverse = el('#presetReverse');
+const presetNearly = el('#presetNearly');
+const currentAlgoLabel = el('#currentAlgo');
+const togglePcodeBtn = el('#togglePcode'); // Get toggle button
+
+/*
+  REMOVED: Race mode variables
+*/
+
+const genBtn = el('#genBtn'), shuffleBtn = el('#shuffleBtn');
+const presetDock = el('#presetDock'), dockSpeed = el('#dockSpeed'), dockMode = el('#dockMode');
+
+function refreshPseudocode(){
+  const a = state.algo;
+  // FIX: This function now *only* updates the sidebar #pcard
+  highlightPseudocode(a, -1);
+  el('#currentAlgo').textContent = ALGO_PSEUDO[a].title;
+  el('#complexityName').textContent = ALGO_PSEUDO[a].title;
+  el('#timeComplex').textContent = ALGO_PSEUDO[a].complexity.time;
+  el('#spaceComplex').textContent = ALGO_PSEUDO[a].complexity.space;
+}
+
+function init(){
+  state.algo = algoSelect.value;
+  state.speed = parseInt(speedRange.value,10);
+  state.mode = modeSelect.value;
+  const size = parseInt(sizeSelect.value,10);
+  state.arr = makeArray(size,'random');
+  renderBars(barsWrap, state.arr);
+  resetEngine(state.arr, state.algo);
+  refreshPseudocode();
+  setStatus('Ready');
+  // REMOVED: initialize race panels
+
+  // FIX: Wire up the toggle button
+  togglePcodeBtn.addEventListener('click', () => {
+    const pcard = el('#pcard');
+    pcard.style.display = pcard.style.display === 'none' ? 'block' : 'none';
+  });
+}
+init();
+
+/* event handlers */
+algoSelect.addEventListener('change', ()=>{
+  state.algo = algoSelect.value;
+  refreshPseudocode();
+  resetEngine(state.arr.slice(), state.algo); // Reset with a copy
+  renderBars(barsWrap, state.arr); // Render original array
+});
+sizeSelect.addEventListener('change', ()=>{
+  const s = parseInt(sizeSelect.value,10);
+  state.arr = makeArray(s, presetDock.value || 'random');
+  renderBars(barsWrap, state.arr);
+  resetEngine(state.arr.slice(), state.algo); // Reset with a copy
+  // REMOVED: race bar rendering
+});
+modeSelect.addEventListener('change', ()=>{ state.mode = modeSelect.value; dockMode.value = state.mode; });
+dockMode.addEventListener('change', ()=>{ state.mode = dockMode.value; modeSelect.value = dockMode.value; });
+
+speedRange.addEventListener('input', ()=>{ state.speed = parseInt(speedRange.value,10); dockSpeed.value = speedRange.value; });
+dockSpeed.addEventListener('input', ()=>{ state.speed = parseInt(dockSpeed.value,10); speedRange.value = dockSpeed.value; });
+
+function setPreset(preset) {
+  state.arr = makeArray(parseInt(sizeSelect.value, 10), preset);
+  renderBars(barsWrap, state.arr);
+  resetEngine(state.arr.slice(), state.algo);
+  setStatus('Generated ' + preset);
+  // REMOVED: race bar rendering
+  presetDock.value = preset;
+}
+
+presetRandom.addEventListener('click', ()=> setPreset('random'));
+presetReverse.addEventListener('click', ()=> setPreset('reverse'));
+presetNearly.addEventListener('click', ()=> setPreset('nearly'));
+
+genBtn.addEventListener('click', ()=> {
+  setPreset(presetDock.value || 'random');
+  // REMOVED: race bar rendering from genBtn
+});
+
+shuffleBtn.addEventListener('click', ()=>{
+  state.arr.sort(()=>0.5 - Math.random());
+  renderBars(barsWrap, state.arr);
+  resetEngine(state.arr.slice(), state.algo);
+  setStatus('Shuffled');
+  // REMOVED: race bar rendering
+});
+
+stepBtn.addEventListener('click', ()=>{
+  state.mode='step';
+  modeSelect.value='step';
+  dockMode.value='step';
+  stepOnce(barsWrap);
+  setStatus('Step executed');
+});
+
+playBtn.addEventListener('click', async ()=>{
+  if(state.running) return; // Prevent multiple plays
+  state.mode='auto';
+  modeSelect.value='auto';
+  dockMode.value='auto';
+  // FIX: We now only use resetEngine to set up the array and generator state
+  resetEngine(state.arr.slice(), state.algo);
+  await runAuto(barsWrap);
+});
+
+resetBtn.addEventListener('click', ()=>{
+  setPreset(presetDock.value || 'random');
+  setStatus('Reset');
+});
+
+/*
+  REMOVED: Race logic functions (runRaceInstance) and event listeners
+  (startRace, resetRace)
+*/
+
+
+/* initial setup */
+resetEngine(state.arr.slice(), state.algo);
+refreshPseudocode();
+renderBars(barsWrap, state.arr);
+
+/* small accessibility: keyboard step (space) */
+window.addEventListener('keydown', (e)=>{
+  if(e.code==='Space' && state.mode === 'step'){
+    e.preventDefault();
+    stepOnce(barsWrap);
+  }
+});
+</script>
+
+</body>
+</html>

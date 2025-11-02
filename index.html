@@ -1,498 +1,536 @@
-<!DOCTYPE html>
-<html lang="si">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A/L ICT: විද්‍යාගාර පුහුණුව සමඟින් විෂය නිවැරදිව ඉගෙනීම</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Noto Sans Sinhala', 'Inter', sans-serif;
-            color: #1F2937; /* Dark Gray from the theme */
-            background-color: #F9FAFB;
-        }
-        .card-themed {
-            background-color: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
-            padding: 32px;
-            margin-bottom: 24px;
-            transition: all 0.3s ease;
-        }
-        .card-themed:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(29, 78, 216, 0.2); /* Shadow with Blue-700 hint */
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 380px;
-            max-height: 450px;
-        }
-        @media (max-width: 640px) {
-            .chart-container {
-                height: 300px;
-                max-height: 350px;
-            }
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title data-i18n="title">A/L ICT — Learning with Laboratory Practice</title>
+
+<!-- Tailwind CSS (CDN) -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Fonts: Inter + Sinhala -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Sans+Sinhala:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* --- Apple-inspired theme variables and base styling --- */
+  :root{
+    --bg-1: #e8f0ff; /* soft blue */
+    --bg-2: #f7f8fd; /* near white */
+    --card-bg: rgba(255,255,255,0.62); /* Glass background */
+    --card-border: rgba(255,255,255,0.7);
+    --glass-blur: 18px; /* Slightly stronger blur for depth */
+    --accent: #007aff; /* iOS blue */
+    --accent-dark: #0063d6;
+    --muted: #475569;
+    --text: #0b1220;
+    --dark-heading: #04345b;
+    --radius-lg: 16px;
+    --shadow: 0 12px 40px rgba(6,18,40,0.07);
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    font-family: "Inter", "Noto Sans Sinhala", -apple-system, system-ui, sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Big Sur inspired subtle radial gradient background */
+    background: radial-gradient(800px 400px at 8% 18%, rgba(0,122,255,0.08), transparent),
+                linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  }
+
+  /* Glass card base class, using Tailwind for structure but custom CSS for blur/border */
+  .glass {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.1);
+    box-shadow: var(--shadow);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .glass:hover { transform: translateY(-3px); box-shadow: 0 16px 45px rgba(6,18,40,0.1); }
+
+  /* Primary button style */
+  .btn-primary {
+    background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+    box-shadow: 0 8px 22px rgba(0,122,255,0.12);
+  }
+
+  /* Language Switcher Styling */
+  .lang-switcher {
+    display: inline-flex;
+    border-radius: 9999px; /* Full rounded */
+    padding: 2px;
+    background-color: rgba(11,23,38,0.06);
+    cursor: pointer;
+    user-select: none;
+    font-weight: 600;
+  }
+  .lang-btn {
+    padding: 6px 14px;
+    border-radius: 9999px;
+    transition: all 0.2s ease-in-out;
+    font-size: 14px;
+    color: var(--text);
+  }
+  .lang-btn.active {
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    color: var(--accent-dark);
+  }
+
+  /* Table styling refined for glass look */
+  .lesson-table th {
+    background: linear-gradient(180deg, rgba(0,122,255,0.06), rgba(0,122,255,0.04));
+    color: var(--dark-heading);
+  }
+  .lesson-table tbody tr:hover td { background-color: rgba(11,23,38,0.02); }
+</style>
 </head>
-<body class="bg-gradient-to-b from-gray-50 to-gray-100">
+<body class="min-h-screen">
+
+  <!-- Header/Navigation Bar -->
+  <header class="sticky top-0 z-10 p-4 shadow-sm" style="background: rgba(255,255,255,0.9); backdrop-filter: blur(12px);">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-4 md:px-6">
+      <div class="text-xl font-extrabold" style="color:var(--accent-dark)" data-i18n="nav-title">තිමානි දහනායක</div>
+      
+      <!-- Language Switcher -->
+      <div id="languageSwitcher" class="lang-switcher">
+        <button id="lang-en" class="lang-btn active">EN</button>
+        <button id="lang-si" class="lang-btn">SI</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto p-4 md:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
     
-    
-<!-- NEW Hero Section: 2027 A/L ICT - Learning with Confidence (Based on user image) -->
-    <section class="max-w-7xl mx-auto px-6 py-16">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            
-            <!-- Text Content and CTA -->
-            <div class="lg:order-1 order-2 text-center lg:text-left">
-                
-                <!-- Main Headline -->
-                <p class="text-2xl sm:text-3xl font-bold text-blue-700 mb-3">
-                    2027 A/L ICT
-                </p>
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-8 leading-tight">
-                    විශ්වාසයෙන් ඉගෙනීමක්
-                </h1>
-                
-                <!-- Subtext (Reusing existing teacher info) -->
-                <p class="text-lg text-gray-700 max-w-4xl mx-auto lg:mx-0 font-medium mb-2">
-                    තිමානි දහනායක විසින් මෙහෙයවන භෞතික සහ මාර්ගගත (Online) පන්ති සඳහා එක්වන්න. 
-                </p>
-                <p class="text-lg text-gray-600 max-w-4xl mx-auto lg:mx-0 font-medium mb-10">
-                    <span class="block text-gray-700 font-semibold">BSc (Hons) in Computer Science, SLIIT (උපාධි අපේක්ෂක).</span>
-                </p>
+    <!-- MAIN CONTENT (Left & Center) -->
+    <div class="lg:col-span-2 flex flex-col space-y-6 lg:space-y-8">
 
-                <!-- CTA Buttons -->
-                <div class="flex justify-center lg:justify-start space-x-4">
-                  <a href="#registration" 
-                        class="bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-lg inline-block hover:bg-blue-800 transition shadow-lg flex-grow sm:flex-grow-0">
-                        අදම ලියාපදිංචි වන්න
-                    </a>
-                    <a href="#lab_advantage" 
-                        class="bg-gray-200 text-gray-800 font-bold py-3 px-6 rounded-lg text-lg inline-block hover:bg-gray-300 transition shadow-md flex-grow sm:flex-grow-0">
-                        Lab ක්‍රමවේදය
-                    </a>
-                    <a href="#lesson_dashboard" 
-                        class="bg-blue-500 text-white font-bold py-3 px-6 rounded-lg text-lg inline-block hover:bg-blue-600 transition shadow-lg flex-grow sm:flex-grow-0">
-                        ප්‍රායෝගික Labs බලන්න
-                    </a>
-                </div>
-            </div>
+      <!-- HERO Section -->
+      <section class="glass p-6 md:p-8 flex flex-col-reverse lg:flex-row gap-6 items-center">
+        <div class="flex-1">
+          <p class="text-sm font-semibold mb-2" style="color:var(--accent)" data-i18n="hero-category"></p>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4" style="color:var(--dark-heading)" data-i18n="hero-title"></h1>
+          <p class="text-base text-gray-500 mb-6" data-i18n="hero-subtitle"></p>
 
-            <!-- Image Content -->
-            <div class="lg:order-2 order-1 flex justify-center lg:justify-end">
-                <div class="w-full max-w-md bg-white rounded-3xl overflow-hidden shadow-2xl">
-                    <!-- Image Placeholder matching the style of the new hero image -->
-                    <img src="imgs/pp.png"
-                         alt="තිමානි දහනායක - ගුරුවරිය"
-                         class="w-full h-auto object-cover"
-                         onerror="this.src='https://placehold.co/500x500/1D4ED8/FFFFFF?text=Thimani+D'; this.onerror=null;">
-                </div>
-            </div>
+          <div class="flex flex-wrap gap-3">
+            <a href="#registration" class="btn btn-primary text-white font-bold py-3 px-5 rounded-xl text-sm" data-i18n="btn-register"></a>
+            <a href="#lab_advantage" class="bg-gray-100 text-gray-800 font-semibold py-3 px-5 rounded-xl text-sm transition hover:bg-gray-200" data-i18n="btn-method"></a>
+            <a href="#lesson_dashboard" class="btn btn-primary text-white font-bold py-3 px-5 rounded-xl text-sm" style="background:linear-gradient(180deg,#00a0ff,#007aff)" data-i18n="btn-labs"></a>
+          </div>
         </div>
-    </section>
 
-
-    <main class="max-w-7xl mx-auto p-4 sm:p-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-            <!-- Section 1: The Lab Advantage -->
-            <div id="lab_advantage" class="card-themed lg:col-span-2 bg-blue-50 border-2 border-blue-200">
-                <h2 class="text-3xl font-extrabold text-blue-800 mb-4 text-center">
-                    📖 සටහන් + 💻 Lab: ප්‍රායෝගිකත්වය සමඟින් න්‍යාය තහවුරු කිරීම
-                </h2>
-                <p class="text-base sm:text-lg text-gray-700 mb-8 text-center max-w-4xl mx-auto">
-                    A/L ICT විභාගය සමත් වීමට පමණක් නොව, විශ්වවිද්‍යාලයේදී සහ රැකියා වෙළඳපොලේදී සාර්ථක වීමටද ප්‍රායෝගික දැනුම අත්‍යවශ්‍ය වේ. අපගේ පන්තියේදී ඔබට ලැබෙන සුවිශේෂී වාසි:
-                </p>
-                
-                <div class="grid sm:grid-cols-3 gap-6 mt-6">
-                    <div class="text-center p-4 bg-white rounded-xl shadow-md">
-                        <span class="text-4xl block mb-2">⚙️</span>
-                        <h4 class="font-bold text-gray-900">සැබෑ කේතීකරණය (Real Coding)</h4>
-                        <p class="text-sm text-gray-600 mt-1">Python, SQL වැනි විෂය කොටස් සඳහා සෘජු පරිගණක භාවිතය.</p>
-                    </div>
-                    <div class="text-center p-4 bg-white rounded-xl shadow-md">
-                        <span class="text-4xl block mb-2">🧠</span>
-                        <h4 class="font-bold text-gray-900">ගැඹුරු අවබෝධය</h4>
-                        <p class="text-sm text-gray-600 mt-1">න්‍යාය (Theory) ක්‍රියාවට නැංවීමෙන් මතකය තහවුරු වීම.</p>
-                    </div>
-                    <div class="text-center p-4 bg-white rounded-xl shadow-md">
-                        <span class="text-4xl block mb-2">🚀</span>
-                        <h4 class="font-bold text-gray-900">විශ්වවිද්‍යාල සූදානම</h4>
-                        <p class="text-sm text-gray-600 mt-1">පළමු වසරේදී අවශ්‍ය වන මූලික Lab Skill හුරු කිරීම.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Section 2: Global Language (Re-framed) - Doughnut Chart -->
-            <div class="card-themed lg:col-span-2">
-                <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">
-                    තාක්ෂණයේ ගෝලීය භාෂාව (Lab වැඩ සඳහා අත්‍යවශ්‍ය)
-                </h2>
-                <p class="text-base sm:text-lg text-gray-700 mb-8 text-center max-w-3xl mx-auto">
-                    නවීන තාක්ෂණයන්, කේතීකරණ (coding) සහ පර්යේෂණ ලේඛන සියල්ල ඉංග්‍රීසියෙන් පවතින බැවින්, මෙම භාෂා ප්‍රවීණතාවය **ප්‍රායෝගිකව විද්‍යාගාරයේදී ක්‍රියාත්මක කිරීමේදී** අත්‍යවශ්‍ය වේ.
-                </p>
-                
-                <div class="flex flex-col lg:flex-row items-center gap-10">
-                    <div class="w-full lg:w-1/2">
-                        <div class="chart-container" style="max-width: 450px; height: 350px;">
-                            <canvas id="languageChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="w-full lg:w-1/2 space-y-4">
-                        <div class="bg-blue-50 p-5 rounded-xl flex items-center shadow-sm">
-                            <span class="text-3xl mr-4 text-blue-700">💡</span>
-                            <div>
-                                <h4 class="font-semibold text-blue-800">ක්‍රමලේඛන භාෂා</h4>
-                                <p class="text-sm text-gray-600">සියලුම Programming Languages ඉංග්‍රීසි වචන මත පදනම් වන අතර, Lab සැසිවලදී අත්හදා බැලේ.</p>
-                            </div>
-                        </div>
-                        <div class="bg-blue-50 p-5 rounded-xl flex items-center shadow-sm">
-                            <span class="text-3xl mr-4 text-blue-700">🔗</span>
-                            <div>
-                                <h4 class="font-semibold text-blue-800">ජාත්‍යන්තර සම්පත්</h4>
-                                <p class="text-sm text-gray-600">Lab වැඩවලදී ගැටළු විසඳීමට ගෝලීය සංවර්ධක සංසද භාවිතා කිරීමේ හැකියාව.</p>
-                            </div>
-                        </div>
-                        <div class="bg-blue-50 p-5 rounded-xl flex items-center shadow-sm">
-                            <span class="text-3xl mr-4 text-blue-700">⏱️</span>
-                            <div>
-                                <h4 class="font-semibold text-blue-800">කාලය ඉතිරි කිරීම</h4>
-                                <p class="text-sm text-gray-600">Lab සැසිවලදී නවතම තාක්ෂණයන් ක්ෂණිකව අවබෝධ කරගැනීම.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Section 3: University Readiness - Bar Chart (No change needed, still relevant) -->
-            <div class="card-themed lg:col-span-1">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
-                    විශ්වවිද්‍යාල සූදානම සංසන්දනය
-                </h2>
-                <p class="text-base text-gray-700 mb-8 text-center">
-                    ප්‍රායෝගික හා න්‍යායික දැනුම සහිත ශිෂ්‍යයන් දේශීය විශ්වවිද්‍යාලවල පළමු වසර තුළ තාක්ෂණික සංකල්ප අවබෝධ කරගැනීමේ හැකියාවන් සංසන්දනය කිරීම.
-                </p>
-                <div class="chart-container" style="height: 350px;">
-                    <canvas id="universityChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Section 4: Career Potential - Horizontal Bar Chart (No change needed, still relevant) -->
-            <div class="card-themed lg:col-span-1">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
-                    වෘත්තීය ආදායම් වර්ධන විභවය
-                </h2>
-                <p class="text-base text-gray-700 mb-8 text-center">
-                    ප්‍රායෝගික ඉංග්‍රීසි මාධ්‍ය ප්‍රවීණතාවය රැකියා වෙළඳපොලේදී ආදායම් වර්ධනයට බලපාන ආකාරය (සාමාන්‍ය දත්ත).
-                </p>
-                <div class="chart-container" style="height: 350px;">
-                    <canvas id="careerChart"></canvas>
-                </div>
-            </div>
-
-            <!-- NEW Section 5: LESSON AND LAB DASHBOARD (Replaces old Section 5) -->
-            <div id="lesson_dashboard" class="card-themed lg:col-span-2 p-6 sm:p-8">
-                <h2 class="text-3xl font-extrabold text-blue-800 mb-4 text-center">
-                    🎓 සම්පූර්ණ විෂය මාලාව: සටහන් සහ විද්‍යාගාර සැසි (Labs)
-                </h2>
-                <p class="text-base sm:text-lg text-gray-700 mb-8 text-center max-w-4xl mx-auto">
-                    සෑම පාඩමක්ම න්‍යායාත්මක සටහන් (Theory Notes) සහ සෘජු ප්‍රායෝගික පුහුණු සැසියක් (Practical Lab) ලෙස කොටස් දෙකකින් ආවරණය කෙරේ.
-                </p>
-
-                <!-- Dashboard/Table Structure -->
-                <div class="overflow-x-auto shadow-xl rounded-xl border border-gray-200">
-                    <table class="min-w-full bg-white divide-y divide-gray-200">
-                        <thead class="bg-blue-700 text-white">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider rounded-tl-xl">
-                                    #
-                                </th>
-                                <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
-                                    පාඩමේ මාතෘකාව (Theory Topic)
-                                </th>
-                                <th class="px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider">
-                                    සටහන් (Notes)
-                                </th>
-                                <th class="px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider rounded-tr-xl">
-                                    ප්‍රායෝගික (Lab/Practical)
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200">
-                            <!-- Lesson 1 -->
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">දත්ත සහ තොරතුරු - හැඳින්වීම</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
-                                    <a href="syllabus/AL_ICT_Lesson_01_Notes.html" class="text-blue-600 hover:text-blue-800 font-medium">සටහන් බලන්න</a>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-green-700 font-medium">
-                                    SQL Database Lab
-                                </td>
-                            </tr>
-                            <!-- Lesson 2 -->
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">2</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">පද්ධති සංවර්ධන සංකල්ප (SDLC)</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
-                                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">සටහන් බලන්න</a>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-green-700 font-medium">
-                                    User Story & Use Case Lab
-                                </td>
-                            </tr>
-                            <!-- Lesson 3 -->
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">3</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">ක්‍රමලේඛනය: Python මූලිකාංග</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
-                                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">සටහන් බලන්න</a>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-green-700 font-medium">
-                                    Python Coding Lab 1
-                                </td>
-                            </tr>
-                            <!-- Lesson 4 -->
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">4</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">ජාලකරණය හා OSI ස්ථර</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
-                                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">සටහන් බලන්න</a>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-green-700 font-medium">
-                                    Network Simulation
-                                </td>
-                            </tr>
-                            <!-- Lesson 5 (Upcoming) -->
-                            <tr class="bg-yellow-50 hover:bg-yellow-100">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">5</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">දෘඩාංග හා මෘදුකාංග (Hardware & Software)</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
-                                    <span class="text-gray-500">පැමිණේ...</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
-                                    --
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="text-center mt-8">
-                    <a href="#registration" 
-                        class="bg-green-600 text-white font-bold py-3 px-6 rounded-lg text-lg inline-block hover:bg-green-700 transition shadow-lg">
-                        සම්පූර්ණ පාඨමාලාව සඳහා ලියාපදිංචි වන්න
-                    </a>
-                </div>
-
-            </div>
-
+        <div class="w-full lg:w-96 flex justify-center flex-shrink-0">
+          <div class="portrait w-full max-w-xs md:max-w-none rounded-3xl overflow-hidden shadow-2xl transition hover:shadow-3xl" style="background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(250,250,255,0.9)); border: 1px solid rgba(15,23,42,0.03);">
+            <!-- Placeholder Image for Responsiveness -->
+            <img src="imgs/pp.png" alt="Thimani Dahanayake - Teacher" class="w-full h-auto block" onerror="this.src='https://placehold.co/400x400/007aff/ffffff?text=Teacher+Portrait'; this.onerror=null;">
+          </div>
         </div>
-    </main>
+      </section>
 
-    <footer class="bg-gray-800 text-white mt-12 py-10">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <h3 class="text-2xl font-bold text-blue-400">තිමානි දහනායකගේ ICT පන්ති</h3>
-            <p class="text-base text-gray-400 mt-2">
-                ඔබේ අනාගතය සඳහා නිවැරදි තීරණය ගන්න.
-            </p>
-            <div class="mt-8">
-                 <!--  -->
-               <a href="https://wa.me/94721386936" target="_blank"
-                    class="bg-green-600 text-white font-bold py-3 px-6 rounded-lg text-lg inline-flex items-center hover:bg-green-700 transition">
-                    WhatsApp හරහා සම්බන්ධ වන්න
-                </a>
-            </div>
+      <!-- Lab Advantage Section -->
+      <section id="lab_advantage" class="glass p-6 md:p-8">
+        <h2 class="text-2xl font-extrabold mb-3" style="color:var(--dark-heading)" data-i18n="lab-h2"></h2>
+        <p class="text-sm text-gray-500 mb-6" data-i18n="lab-p"></p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-white p-5 rounded-xl shadow-lg border border-gray-100 text-center transition hover:shadow-xl">
+            <div class="text-4xl mb-2">⚙️</div>
+            <h4 class="font-bold text-gray-800" data-i18n="card-1-h4"></h4>
+            <p class="text-xs text-gray-500 mt-1" data-i18n="card-1-p"></p>
+          </div>
+          <div class="bg-white p-5 rounded-xl shadow-lg border border-gray-100 text-center transition hover:shadow-xl">
+            <div class="text-4xl mb-2">🧠</div>
+            <h4 class="font-bold text-gray-800" data-i18n="card-2-h4"></h4>
+            <p class="text-xs text-gray-500 mt-1" data-i18n="card-2-p"></p>
+          </div>
+          <div class="bg-white p-5 rounded-xl shadow-lg border border-gray-100 text-center transition hover:shadow-xl">
+            <div class="text-4xl mb-2">🚀</div>
+            <h4 class="font-bold text-gray-800" data-i18n="card-3-h4"></h4>
+            <p class="text-xs text-gray-500 mt-1" data-i18n="card-3-p"></p>
+          </div>
         </div>
-    </footer>
+      </section>
 
-    <script>
-        // Chart.js Configuration
-        const tooltipTitleCallback = (tooltipItems) => {
-            const item = tooltipItems[0];
-            let label = item.chart.data.labels[item.dataIndex];
-            if (Array.isArray(label)) {
-                // If label is an array (used for multi-line labels), join them
-                return label.join(' ');
-            } else {
-                return label;
-            }
-        };
+      <!-- Charts Panel -->
+      <section class="glass p-6 md:p-8 flex flex-col xl:flex-row gap-6">
         
-        // Use theme colors
-        const chartColors = {
-            primaryAccent: '#1D4ED8', // blue-700
-            secondaryAccent: '#3B82F6', // blue-500
-            tertiary: '#BFDBFE', // blue-200
-            text: '#1F2937' // gray-800
-        };
+        <!-- Language Chart Area -->
+        <div class="bg-white p-4 rounded-xl shadow-inner border border-gray-100 xl:w-2/5 flex flex-col justify-center">
+          <h3 class="font-bold mb-1" style="color:var(--dark-heading)" data-i18n="chart1-h3"></h3>
+          <p class="text-sm text-gray-500 mb-4" data-i18n="chart1-p"></p>
+          <div class="h-64 flex items-center justify-center">
+            <canvas id="languageChart" class="max-w-xs w-full"></canvas>
+          </div>
+        </div>
 
-        const defaultChartOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
-            plugins: {
-                legend: {
-                    labels: {
-                        color: chartColors.text,
-                        font: {
-                            size: 14,
-                            family: 'Noto Sans Sinhala, Inter, sans-serif'
-                        }
-                    },
-                    boxWidth: 20 
-                },
-                tooltip: {
-                    callbacks: {
-                        title: tooltipTitleCallback
-                    },
-                    backgroundColor: chartColors.primaryAccent, 
-                    titleColor: 'white',
-                    bodyColor: 'white',
-                    bodyFont: {
-                        size: 14
-                    },
-                    titleFont: {
-                        size: 16,
-                        weight: 'bold'
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    border: { display: false },
-                    grid: {
-                        color: '#E5E7EB', /* gray-200 */
-                        drawBorder: false
-                    },
-                    ticks: {
-                        color: chartColors.text,
-                        font: {
-                            size: 12
-                        }
-                    }
-                },
-                x: {
-                    border: { display: false },
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        color: chartColors.text,
-                        font: {
-                            size: 12
-                        }
-                    }
-                }
+        <!-- Chart Side Notes -->
+        <div class="flex-1 space-y-4">
+          <div class="p-4 rounded-xl border" style="background: linear-gradient(180deg, rgba(0,122,255,0.06), rgba(250,250,255,0.5)); border-color: rgba(0,122,255,0.08);">
+            <div class="font-bold" style="color:var(--dark-heading)" data-i18n="note1-h4"></div>
+            <div class="text-sm text-gray-500 mt-1" data-i18n="note1-p"></div>
+          </div>
+          <div class="p-4 rounded-xl border" style="background: linear-gradient(180deg, rgba(0,122,255,0.06), rgba(250,250,255,0.5)); border-color: rgba(0,122,255,0.08);">
+            <div class="font-bold" style="color:var(--dark-heading)" data-i18n="note2-h4"></div>
+            <div class="text-sm text-gray-500 mt-1" data-i18n="note2-p"></div>
+          </div>
+          <div class="p-4 rounded-xl border" style="background: linear-gradient(180deg, rgba(0,122,255,0.06), rgba(250,250,255,0.5)); border-color: rgba(0,122,255,0.08);">
+            <div class="font-bold" style="color:var(--dark-heading)" data-i18n="note3-h4"></div>
+            <div class="text-sm text-gray-500 mt-1" data-i18n="note3-p"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Comparison Charts -->
+      <section class="glass p-6 md:p-8 flex flex-col md:flex-row gap-6">
+        
+        <!-- University Readiness -->
+        <div class="flex-1 min-w-1/2">
+          <h3 class="font-bold mb-1" style="color:var(--dark-heading)" data-i18n="chart2-h3"></h3>
+          <p class="text-sm text-gray-500 mb-3" data-i18n="chart2-p"></p>
+          <div class="h-64">
+            <canvas id="universityChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Career Growth -->
+        <div class="flex-1 min-w-1/2">
+          <h3 class="font-bold mb-1" style="color:var(--dark-heading)" data-i18n="chart3-h3"></h3>
+          <p class="text-sm text-gray-500 mb-3" data-i18n="chart3-p"></p>
+          <div class="h-64">
+            <canvas id="careerChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Lessons Dashboard -->
+      <section id="lesson_dashboard" class="glass p-6 md:p-8">
+        <h2 class="text-xl font-extrabold mb-3" style="color:var(--dark-heading)" data-i18n="lesson-h2"></h2>
+        <p class="text-sm text-gray-500 mb-4" data-i18n="lesson-p"></p>
+
+        <div class="overflow-x-auto rounded-xl shadow-lg">
+          <table class="lesson-table w-full text-left border-collapse" style="min-width:768px">
+            <thead>
+              <tr class="text-xs uppercase font-semibold">
+                <th class="p-4 w-12 rounded-tl-xl">#</th>
+                <th class="p-4" data-i18n="tbl-col-topic"></th>
+                <th class="p-4 w-40 text-center" data-i18n="tbl-col-notes"></th>
+                <th class="p-4 w-40 text-center rounded-tr-xl" data-i18n="tbl-col-lab"></th>
+              </tr>
+            </thead>
+            <tbody class="bg-white">
+              <!-- Row 1 -->
+              <tr>
+                <td class="p-4 text-sm text-gray-600">1</td>
+                <td class="p-4 text-sm text-gray-600" data-i18n="tbl-topic-1"></td>
+                <td class="p-4 text-center text-sm"><a href="#" class="font-semibold" style="color:var(--accent)" data-i18n="tbl-link-view"></a></td>
+                <td class="p-4 text-center text-sm font-semibold" style="color:#059669" data-i18n="tbl-lab-1"></td>
+              </tr>
+              <!-- Row 2 -->
+              <tr>
+                <td class="p-4 text-sm text-gray-600">2</td>
+                <td class="p-4 text-sm text-gray-600" data-i18n="tbl-topic-2"></td>
+                <td class="p-4 text-center text-sm"><a href="#" class="font-semibold" style="color:var(--accent)" data-i18n="tbl-link-view"></a></td>
+                <td class="p-4 text-center text-sm font-semibold" style="color:#059669" data-i18n="tbl-lab-2"></td>
+              </tr>
+              <!-- Row 3 -->
+              <tr>
+                <td class="p-4 text-sm text-gray-600">3</td>
+                <td class="p-4 text-sm text-gray-600" data-i18n="tbl-topic-3"></td>
+                <td class="p-4 text-center text-sm"><a href="#" class="font-semibold" style="color:var(--accent)" data-i18n="tbl-link-view"></a></td>
+                <td class="p-4 text-center text-sm font-semibold" style="color:#059669" data-i18n="tbl-lab-3"></td>
+              </tr>
+              <!-- Row 4 -->
+              <tr>
+                <td class="p-4 text-sm text-gray-600">4</td>
+                <td class="p-4 text-sm text-gray-600" data-i18n="tbl-topic-4"></td>
+                <td class="p-4 text-center text-sm"><a href="#" class="font-semibold" style="color:var(--accent)" data-i18n="tbl-link-view"></a></td>
+                <td class="p-4 text-center text-sm font-semibold" style="color:#059669" data-i18n="tbl-lab-4"></td>
+              </tr>
+              <!-- Row 5 (Coming Soon) -->
+              <tr class="bg-yellow-50/50">
+                <td class="p-4 text-sm text-gray-600">5</td>
+                <td class="p-4 text-sm text-gray-600 font-semibold" data-i18n="tbl-topic-5"></td>
+                <td class="p-4 text-center text-sm text-gray-500" data-i18n="tbl-status-coming"></td>
+                <td class="p-4 text-center text-sm text-gray-500">--</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 text-center">
+          <a href="#registration" class="btn btn-primary text-white font-bold py-3 px-6 rounded-xl text-sm" data-i18n="btn-full-course"></a>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- SIDE PANEL (Right) -->
+    <aside class="lg:col-span-1 flex flex-col space-y-6">
+      
+      <!-- Related Data Card -->
+      <div class="glass p-6">
+        <h4 class="text-lg font-bold mb-1" style="color:var(--dark-heading)" data-i18n="side-h4-data"></h4>
+        <p class="text-sm text-gray-500 mb-4" data-i18n="side-p-data"></p>
+        
+        <div class="flex gap-3">
+          <div class="flex-1 bg-white p-4 rounded-xl shadow-md border border-gray-100">
+            <div class="font-bold text-gray-800 mb-1" data-i18n="side-data-h4"></div>
+            <div class="text-xs text-gray-500" data-i18n="side-data-p"></div>
+          </div>
+          <!-- Add more mini cards if needed -->
+        </div>
+      </div>
+
+      <!-- Contact Card -->
+      <div class="glass p-6">
+        <h4 class="text-lg font-bold mb-1" style="color:var(--dark-heading)" data-i18n="side-h4-contact"></h4>
+        <p class="text-sm text-gray-500 mb-4" data-i18n="side-p-contact"></p>
+        <a href="https://wa.me/94721386936" target="_blank" class="btn btn-primary text-white font-bold py-3 px-5 rounded-xl text-sm w-full text-center block" data-i18n="btn-whatsapp"></a>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-8 border-t border-gray-100 p-8" style="background: linear-gradient(180deg, rgba(11,23,38,0.02), rgba(11,23,38,0.01));">
+    <div class="max-w-7xl mx-auto text-center">
+      <h3 class="text-2xl font-bold" style="color:var(--accent)" data-i18n="footer-h3"></h3>
+      <p class="text-sm text-gray-500 mt-2" data-i18n="footer-p"></p>
+    </div>
+  </footer>
+
+  <!-- --- Chart.js and Language Control Scripts --- -->
+  <script>
+    let currentLang = 'en'; // Default language
+
+    const chartColors = {
+      primary: '#0b61d6',
+      accent: '#007aff',
+      soft: '#dbe9ff',
+      text: '#0b1220'
+    };
+
+    // --- Content Mapping (i18n) ---
+    const contentMap = {
+      'title': { si: 'A/L ICT — විද්‍යාගාර පුහුණුව සමඟින් ඉගෙනීම', en: 'A/L ICT — Learning with Laboratory Practice' },
+      'nav-title': { si: 'තිමානි දහනායක', en: 'Thimani Dahanayake' },
+      'hero-category': { si: '2027 A/L ICT', en: '2027 A/L ICT' },
+      'hero-title': { si: 'විශ්වාසයෙන් ඉගෙනීමක්', en: 'Confident Learning' },
+      'hero-subtitle': { si: 'තිමානි දහනායක විසින් මෙහෙයවන භෞතික සහ මාර්ගගත පන්ති සඳහා එක්වන්න.', en: 'Join physical and online classes conducted by Thimani Dahanayake.' },
+      'btn-register': { si: 'අදම ලියාපදිංචි වන්න', en: 'Register Today' },
+      'btn-method': { si: 'Lab ක්‍රමවේදය', en: 'Lab Methodology' },
+      'btn-labs': { si: 'ප්‍රායෝගික Labs බලන්න', en: 'View Practical Labs' },
+      'lab-h2': { si: '📖 සටහන් + 💻 Lab: ප්‍රායෝගිකත්වය සමඟින් න්‍යාය තහවුරු කිරීම', en: '📖 Notes + 💻 Lab: Reinforce Theory with Practical Application' },
+      'lab-p': { si: 'A/L ICT විභාගය සමත් වීමට පමණක් නොව, විශ්වවිද්‍යාලයේදී සහ රැකියා වෙළඳපොලේදී සාර්ථක වීමටද ප්‍රායෝගික දැනුම අත්‍යවශ්‍ය වේ. අපගේ පන්තියේදී ඔබට ලැබෙන වාසි:', en: 'Practical knowledge is essential not just for passing the A/L ICT exam, but also for success in university and the job market. Advantages in our class:' },
+      'card-1-h4': { si: 'සැබෑ කේතීකරණය (Real Coding)', en: 'Real Coding' },
+      'card-1-p': { si: 'Python, SQL වැනි විෂය කොටස් සඳහා සෘජු පරිගණක භාවිතය.', en: 'Direct computer use for modules like Python and SQL.' },
+      'card-2-h4': { si: 'ගැඹුරු අවබෝධය', en: 'Deeper Understanding' },
+      'card-2-p': { si: 'න්‍යාය (Theory) ක්‍රියාවට නැංවීමෙන් මතකය තහවුරු වීම.', en: 'Memory reinforcement by applying theory practically.' },
+      'card-3-h4': { si: 'විශ්වවිද්‍යාල සූදානම', en: 'University Readiness' },
+      'card-3-p': { si: 'පළමු වසරේදී අවශ්‍ය වන මූලික Lab Skill හුරු කිරීම.', en: 'Familiarizing basic Lab Skills required in the first year.' },
+      'chart1-h3': { si: 'තාක්ෂණයේ ගෝලීය භාෂාව', en: 'The Global Language of Technology' },
+      'chart1-p': { si: 'නවීන තාක්ෂණයන්, කේතීකරණ සහ පර්යේෂණ ලේඛන සියල්ල ඉංග්‍රීසියෙන් පවතින බැවින්...', en: 'Since modern technologies, coding, and research documents are all in English...' },
+      'note1-h4': { si: 'ක්‍රමලේඛන භාෂා', en: 'Programming Languages' },
+      'note1-p': { si: 'සියලුම Programming Languages ඉංග්‍රීසි වචන මත පදනම් වන අතර, Lab සැසිවලදී අත්හදා බැලේ.', en: 'All Programming Languages are based on English words and tested in Lab sessions.' },
+      'note2-h4': { si: 'ජාත්‍යන්තර සම්පත්', en: 'International Resources' },
+      'note2-p': { si: 'Lab වැඩවලදී ගෝලීය සංවර්ධක සංසද භාවිතා කිරීමේ හැකියාව.', en: 'Ability to utilize global developer forums during Lab work.' },
+      'note3-h4': { si: 'කාලය ඉතිරි කිරීම', en: 'Time Saving' },
+      'note3-p': { si: 'Lab සැසිවලදී නවතම තාක්ෂණයන් ක්ෂණිකව අවබෝධ කරගැනීම.', en: 'Instant comprehension of the latest technologies during Lab sessions.' },
+      'chart2-h3': { si: 'විශ්වවිද්‍යාල සූදානම සංසන්දනය', en: 'University Readiness Comparison' },
+      'chart2-p': { si: 'ප්‍රායෝගික හා න්‍යායික දැනුම සහිත ශිෂ්‍යයන් සඳහා.', en: 'For students with practical and theoretical knowledge.' },
+      'chart3-h3': { si: 'වෘත්තීය ආදායම් වර්ධන', en: 'Professional Income Growth' },
+      'chart3-p': { si: 'ප්‍රායෝගික ඉංග්‍රීසි මාධ්‍ය ප්‍රවීණතාවය රැකියා වෙළඳපොලේදී ආදායම් වර්ධනයට බලපාන ආකාරය.', en: 'How practical English medium proficiency affects income growth in the job market.' },
+      'lesson-h2': { si: '🎓 සම්පූර්ණ විෂය මාලාව: සටහන් සහ විද්‍යාගාර සැසි', en: '🎓 Full Syllabus: Notes and Lab Sessions' },
+      'lesson-p': { si: 'සෑම පාඩමක්ම න්‍යායාත්මක සටහන් සහ ප්‍රායෝගික පුහුණු සැසියක් ලෙස කොටු වේ.', en: 'Each lesson is structured as a theoretical notes session and a practical training lab.' },
+      'tbl-col-topic': { si: 'පාඩමේ මාතෘකාව (Theory Topic)', en: 'Lesson Topic (Theory Topic)' },
+      'tbl-col-notes': { si: 'සටහන් (Notes)', en: 'Notes' },
+      'tbl-col-lab': { si: 'ප්‍රායෝගික (Lab/Practical)', en: 'Lab/Practical' },
+      'tbl-link-view': { si: 'සටහන් බලන්න', en: 'View Notes' },
+      'tbl-lab-1': { si: 'SQL Database Lab', en: 'SQL Database Lab' },
+      'tbl-lab-2': { si: 'User Story & Use Case Lab', en: 'User Story & Use Case Lab' },
+      'tbl-lab-3': { si: 'Python Coding Lab 1', en: 'Python Coding Lab 1' },
+      'tbl-lab-4': { si: 'Network Simulation', en: 'Network Simulation' },
+      'tbl-status-coming': { si: 'පැමිණේ...', en: 'Coming Soon...' },
+      'tbl-topic-1': { si: 'දත්ත සහ තොරතුරු - හැඳින්වීම', en: 'Data and Information - Introduction' },
+      'tbl-topic-2': { si: 'පද්ධති සංවර්ධන සංකල්ප (SDLC)', en: 'System Development Concepts (SDLC)' },
+      'tbl-topic-3': { si: 'ක්‍රමලේඛනය: Python මූලිකාංග', en: 'Programming: Python Fundamentals' },
+      'tbl-topic-4': { si: 'ජාලකරණය හා OSI ස්ථර', en: 'Networking and OSI Layers' },
+      'tbl-topic-5': { si: 'දෘඩාංග හා මෘදුකාංග (Hardware & Software)', en: 'Hardware & Software' },
+      'btn-full-course': { si: 'සම්පූර්ණ පාඨමාලාව සඳහා ලියාපදිංචි වන්න', en: 'Register for the Full Course' },
+      'side-h4-data': { si: 'ආශ්‍රිත දත්ත', en: 'Related Data' },
+      'side-p-data': { si: 'සුළු සංඛ්‍යාත්මක දෘශ්‍යීකරණ සහ පහසු රිසිව.', en: 'Minor numerical visualization and easy access.' },
+      'side-data-h4': { si: 'සම්මතයන්', en: 'Standards' },
+      'side-data-p': { si: 'ප්‍රතිපත්ති හා ක්‍රියාමාර්ග', en: 'Policies and Procedures' },
+      'side-h4-contact': { si: 'ඇමතුම', en: 'Contact' },
+      'side-p-contact': { si: 'ඔබට සෘජුවම WhatsApp හරහා සම්බන්ධ විය හැක', en: 'You can contact directly via WhatsApp' },
+      'btn-whatsapp': { si: 'WhatsApp හරහා සම්බන්ධ වන්න', en: 'Contact via WhatsApp' },
+      'footer-h3': { si: 'තිමානි දහනායකගේ ICT පන්ති', en: 'Thimani Dahanayake ICT Classes' },
+      'footer-p': { si: 'ඔබේ අනාගතය සඳහා නිවැරදි තීරණය ගන්න.', en: 'Make the right decision for your future.' },
+      // Chart Data Labels
+      'chart1-labels': { si: ['ඉංග්‍රීසි (95%)', 'වෙනත් (5%)'], en: ['English (95%)', 'Other (5%)'] },
+      'chart2-labels': { si: [['තාක්ෂණික අවබෝධය','(Technical)'], 'දේශන අවබෝධය', ['හැඩගැසීමේ පහසුව','(Adaptation)']], en: ['Technical Understanding', 'Lecture Comprehension', 'Adaptation Ease'] },
+      'chart2-datasets': { si: ['ඉංග්‍රීසි + Lab', 'සිංහල මාධ්‍ය'], en: ['English + Lab', 'Sinhala Medium'] },
+      'chart3-labels': { si: [['ඉංග්‍රීසි','වෘත්තීය මාර්ගය'], ['සිංහල','වෘත්තීය මාර්ගය']], en: ['English Career Path', 'Sinhala Career Path'] },
+      'chart3-dataset': { si: 'වසර 5ක ආදායම් වර්ධන (%)', en: '5-Year Income Growth (%)' }
+    };
+
+    // Chart instances to be managed
+    let languageChart, universityChart, careerChart;
+    
+    // Default chart options for easy theming
+    const defaultChartOptions = {
+      maintainAspectRatio: false,
+      responsive: true,
+      plugins: {
+        legend: { labels: { color: chartColors.text, font: { size: 13, family: 'Inter, Noto Sans Sinhala, sans-serif' } } },
+        tooltip: {
+          backgroundColor: chartColors.primary,
+          titleColor: '#fff', bodyColor: '#fff', padding: 10,
+          callbacks: {
+            title: (tooltipItems) => {
+              const item = tooltipItems[0];
+              let label = item.chart.data.labels[item.dataIndex];
+              return Array.isArray(label) ? label.join(' ') : label;
             }
-        };
+          }
+        }
+      },
+      scales: {
+        y: { grid: { color: '#eef3fb', drawBorder: false }, ticks: { color: chartColors.text, font: { size: 12 } } },
+        x: { grid: { display: false }, ticks: { color: chartColors.text, font: { size: 12 } } }
+      }
+    };
+    
+    // --- Chart Initialization and Update Functions ---
 
-        new Chart(document.getElementById('languageChart'), {
-            type: 'doughnut',
-            data: {
-                labels: ['ඉංග්‍රීසි (ගෝලීය සම්පත් 95%)', 'වෙනත් භාෂා (5%)'],
-                datasets: [{
-                    label: 'තාක්ෂණික සම්පත්වල භාෂාව',
-                    data: [95, 5],
-                    backgroundColor: [
-                        chartColors.primaryAccent,
-                        chartColors.tertiary
-                    ],
-                    borderColor: 'white',
-                    borderWidth: 4 
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                responsive: true,
-                cutout: '75%', 
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            color: chartColors.text,
-                            font: {
-                                size: 14,
-                                family: 'Noto Sans Sinhala, Inter, sans-serif'
-                            },
-                            padding: 20
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            title: tooltipTitleCallback
-                        },
-                        backgroundColor: chartColors.primaryAccent,
-                        titleColor: 'white',
-                        bodyColor: 'white',
-                    }
-                }
-            }
-        });
+    function createCharts() {
+      // Don't recreate if they exist, just update
+      if (languageChart) {
+          updateCharts();
+          return;
+      }
+      
+      // 1. LANGUAGE DOUGHNUT
+      languageChart = new Chart(document.getElementById('languageChart'), {
+        type: 'doughnut',
+        data: {
+          labels: contentMap['chart1-labels'][currentLang],
+          datasets: [{
+            data: [95, 5],
+            backgroundColor: [chartColors.accent, chartColors.soft],
+            borderColor: '#fff',
+            borderWidth: 4
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          cutout: '70%',
+          plugins: {
+            legend: { position: 'bottom', labels: { color: chartColors.text } },
+            tooltip: defaultChartOptions.plugins.tooltip
+          }
+        }
+      });
 
-        new Chart(document.getElementById('universityChart'), {
-            type: 'bar',
-            data: {
-                labels: [
-                    ['තාක්ෂණික අවබෝධය', '(Technical Comprehension)'], 
-                    'දේශන අවබෝධය', 
-                    ['හැඩගැසීමේ පහසුව', '(Ease of Adaptation)']
-                ],
-                datasets: [
-                    {
-                        label: 'ඉංග්‍රීසි මාධ්‍ය + Lab ශිෂ්‍යයා', // Updated label
-                        data: [90, 95, 85],
-                        backgroundColor: chartColors.primaryAccent,
-                        borderRadius: 6 
-                    },
-                    {
-                        label: 'සිංහල මාධ්‍ය ශිෂ්‍යයා',
-                        data: [40, 35, 30],
-                        backgroundColor: chartColors.tertiary,
-                        borderRadius: 6 
-                    }
-                ]
-            },
-            options: defaultChartOptions
-        });
+      // 2. UNIVERSITY BAR CHART
+      universityChart = new Chart(document.getElementById('universityChart'), {
+        type: 'bar',
+        data: {
+          labels: contentMap['chart2-labels'][currentLang],
+          datasets: [
+            { label: contentMap['chart2-datasets'][currentLang][0], data: [90, 95, 85], backgroundColor: chartColors.accent, borderRadius: 6 },
+            { label: contentMap['chart2-datasets'][currentLang][1], data: [40, 35, 30], backgroundColor: chartColors.soft, borderRadius: 6 }
+          ]
+        },
+        options: defaultChartOptions
+      });
 
-        new Chart(document.getElementById('careerChart'), {
-            type: 'bar',
-            data: {
-                labels: [
-                    ['ඉංග්‍රීසි මාධ්‍ය', 'වෘත්තීය මාර්ගය'],
-                    ['සිංහල මාධ්‍ය', 'වෘත්තීය මාර්ගය']
-                ],
-                datasets: [{
-                    label: 'වසර 5ක ආදායම් වර්ධන විභවය (%)',
-                    data: [300, 75],
-                    backgroundColor: [
-                        chartColors.primaryAccent,
-                        chartColors.tertiary
-                    ],
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                ...defaultChartOptions,
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        ...defaultChartOptions.scales.y, 
-                        max: 320 
-                    },
-                    y: {
-                        ...defaultChartOptions.scales.x 
-                    }
-                }
-            }
-        });
-    </script>
+      // 3. CAREER HORIZONTAL BAR CHART
+      careerChart = new Chart(document.getElementById('careerChart'), {
+        type: 'bar',
+        data: {
+          labels: contentMap['chart3-labels'][currentLang],
+          datasets: [
+            { label: contentMap['chart3-dataset'][currentLang], data: [300, 75], backgroundColor: [chartColors.accent, chartColors.soft], borderRadius: 6 }
+          ]
+        },
+        options: {
+          ...defaultChartOptions,
+          indexAxis: 'y',
+          scales: {
+            x: { ...defaultChartOptions.scales.y, max: 320, title: { display: true, text: '%', color: chartColors.text } },
+            y: { ...defaultChartOptions.scales.x }
+          }
+        }
+      });
+    }
+
+    function updateCharts() {
+      // 1. LANGUAGE DOUGHNUT
+      languageChart.data.labels = contentMap['chart1-labels'][currentLang];
+
+      // 2. UNIVERSITY BAR CHART
+      universityChart.data.labels = contentMap['chart2-labels'][currentLang];
+      universityChart.data.datasets[0].label = contentMap['chart2-datasets'][currentLang][0];
+      universityChart.data.datasets[1].label = contentMap['chart2-datasets'][currentLang][1];
+
+      // 3. CAREER HORIZONTAL BAR CHART
+      careerChart.data.labels = contentMap['chart3-labels'][currentLang];
+      careerChart.data.datasets[0].label = contentMap['chart3-dataset'][currentLang];
+
+      languageChart.update();
+      universityChart.update();
+      careerChart.update();
+    }
+
+    // --- UI Language Update Function ---
+
+    function updateUI() {
+      // 1. Update all data-i18n elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (contentMap[key] && contentMap[key][currentLang]) {
+          el.textContent = contentMap[key][currentLang];
+        }
+      });
+
+      // 2. Update HTML lang attribute
+      document.documentElement.lang = currentLang === 'si' ? 'si' : 'en';
+      
+      // 3. Update Title tag separately
+      document.title = contentMap['title'][currentLang];
+
+      // 4. Update the language switcher appearance
+      document.getElementById('lang-en').classList.toggle('active', currentLang === 'en');
+      document.getElementById('lang-si').classList.toggle('active', currentLang === 'si');
+
+      // 5. Update charts if they exist
+      if (languageChart) {
+          updateCharts();
+      }
+    }
+
+    // --- Event Listeners and Initial Load ---
+    window.onload = function() {
+      createCharts(); // Initialize charts
+      updateUI(); // Set initial language (default 'en' from global state)
+      
+      // Language Switcher Setup
+      document.getElementById('lang-en').addEventListener('click', () => {
+        currentLang = 'en';
+        updateUI();
+      });
+      document.getElementById('lang-si').addEventListener('click', () => {
+        currentLang = 'si';
+        updateUI();
+      });
+    };
+  </script>
 </body>
 </html>
