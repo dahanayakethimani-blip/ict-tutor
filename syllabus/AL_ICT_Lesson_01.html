@@ -1,196 +1,315 @@
 <!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT ඒකකය 1: මූලික සංකල්ප (ද්වි-භාෂා)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans Sinhala', 'Inter', sans-serif;
+            background-color: #F8F9FA;
+            color: #1F2937;
+            /* Theme Colors: Primary Blue (Educational), Secondary Cyan (Dynamic) */
+            --color-primary: #1E88E5; /* Blue 600 */
+            --color-secondary: #00ACC1; /* Cyan 600 */
+            --color-accent: #FFB300; /* Amber 600 */
+        }
+        h1, h2, h3 {
+            color: #0B4F6C;
+            font-weight: 700;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(30, 136, 229, 0.2), 0 10px 10px -5px rgba(30, 136, 229, 0.04);
+        }
+        .flow-step {
+            background-color: #E3F2FD; /* Light Blue */
+            border: 1px solid var(--color-primary);
+            color: var(--color-primary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .flow-step:hover {
+            background-color: var(--color-primary);
+            color: white;
+            transform: scale(1.05);
+        }
+        .flow-arrow {
+            font-size: 2rem;
+            color: #9CA3AF; 
+            line-height: 1;
+        }
+        .chart-container-radar {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
 
-<html lang="si"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>ICT ඒකකය 1: දළ විශ්ලේෂණය</title> <script src="https://cdn.tailwindcss.com"></script> <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+Sinhala:wght@400;600;700&display=swap" rel="stylesheet"> <style> body { font-family: 'Noto Sans Sinhala', 'Inter', sans-serif; background-color: #F3F4F6; color: #1F2937; } h1, h2, h3, h4, h5, h6 { font-family: 'Noto Sans Sinhala', 'Inter', sans-serif; font-weight: 700; color: #0B4F6C; } .chart-container-radar { position: relative; width: 100%; max-width: 450px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; } .card { background-color: #ffffff; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; } .flow-arrow { font-size: 2rem; font-weight: 700; color: #9CA3AF; line-height: 1; } </style> </head> <body>
-
-<header class="bg-white shadow-md">
-    <div class="container mx-auto px-6 py-8 text-center">
-        <h1 class="text-3xl md:text-4xl font-bold">තොරතුරු හා සන්නිවේදන තාක්ෂණය (ICT)</h1>
-        <h2 class="text-2xl md:text-3xl mt-2" style="color: #01BAEF;">ඒකකය 1: මූලික සංකල්ප</h2>
+<header class="bg-white shadow-xl border-t-8 border-cyan-600">
+    <div class="container mx-auto px-6 py-10 text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900">
+            තොරතුරු හා සන්නිවේදන තාක්ෂණය (ICT)
+        </h1>
+        <h2 class="text-2xl md:text-3xl mt-2 font-medium text-cyan-600">
+            ඒකකය 1: මූලික සංකල්ප | Unit 1: Core Concepts
+        </h2>
     </div>
 </header>
 
-<main class="container mx-auto p-4 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+<main class="container mx-auto p-4 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-10">
 
+    <!-- Section 1: Data and Information -->
     <section class="md:col-span-2 grid md:grid-cols-2 gap-8">
-        <div class="card" style="border-top: 5px solid #01BAEF;">
-            <h2 class="text-2xl mb-3">දත්ත (Data)</h2>
-            <p class="text-gray-700">අමු කරුණු, සංඛ්‍යා, අකුරු, සංකේත හෝ රූප. මේවා තනිවම කිසිදු අර්ථයක් නොදක්වයි.</p>
-            <p class="mt-4 text-sm text-gray-600 italic">උදාහරණ: 25, නිල්, A-101</p>
+        <!-- Data Card -->
+        <div class="card border-l-4 border-blue-600">
+            <h2 class="text-3xl mb-3 font-extrabold text-blue-800">Data (දත්ත)</h2>
+            <p class="text-sm font-medium text-gray-800 italic mb-4 border-b pb-3">
+                <strong class="text-base">Definition:</strong> Raw facts, figures, characters, or symbols that, when unprocessed, have no inherent meaning or context.
+            </p>
+            <h3 class="font-bold text-lg text-gray-700">සරල සිංහල පැහැදිලි කිරීම:</h3>
+            <p class="text-gray-600 text-base mt-2">
+                ප්‍රතිඵලයක් නැති, හුදෙක් එකතු කරගත් අමු කරුණු, අංක හෝ වචන. මේවා තනිවම කිසිදු තීරණයක් ගැනීමට ප්‍රයෝජනවත් නොවේ. (උදා: 10, රතු, D-55)
+            </p>
         </div>
-        <div class="card" style="border-top: 5px solid #20A39E;">
-            <h2 class="text-2xl mb-3">තොරතුරු (Information)</h2>
-            <p class="text-gray-700">සැකසූ, සංවිධානය කරන ලද හෝ සන්දර්භගත කරන ලද දත්ත. තොරතුරු වලට අර්ථයක් ඇති අතර තීරණ ගැනීම සඳහා ප්‍රයෝජනවත් වේ.</p>
-            <p class="mt-4 text-sm text-gray-600 italic">උදාහරණ: "ශිෂ්‍යයාගේ වයස අවුරුදු 25 කි."</p>
-        </div>
-    </section>
-
-    <section class="md:col-span-2 card">
-        <h2 class="text-2xl text-center mb-4">දත්ත ජීවන චක්‍රය (Data Life Cycle)</h2>
-        <p class="text-center text-gray-700 max-w-3xl mx-auto mb-8">දත්ත, තොරතුරු බවට පත්වීමේ ක්‍රියාවලිය මූලික පියවර 7 කින් සමන්විත වේ. සෑම පියවරක්ම ඊළඟ පියවර සඳහා අත්‍යවශ්‍ය වේ.</p>
-        <div class="flex flex-col md:flex-row flex-wrap items-center justify-center gap-2">
-            
-            <div class="text-center p-3 rounded-lg" style="background-color: #E6F7FF; border: 1px solid #01BAEF; min-width: 150px;">
-                <span class="text-xs font-bold text-gray-500">පියවර 1</span>
-                <h4 class="font-semibold" style="color: #0B4F6C;">දත්ත එකතු කිරීම</h4>
-            </div>
-            <div class="flow-arrow hidden md:block">→</div>
-            <div class="flow-arrow md:hidden">↓</div>
-            
-            <div class="text-center p-3 rounded-lg" style="background-color: #E6F7FF; border: 1px solid #01BAEF; min-width: 150px;">
-                <span class="text-xs font-bold text-gray-500">පියවර 2</span>
-                <h4 class="font-semibold" style="color: #0B4F6C;">දත්ත පිළියෙල කිරීම</h4>
-            </div>
-            <div class="flow-arrow hidden md:block">→</div>
-            <div class="flow-arrow md:hidden">↓</div>
-
-            <div class="text-center p-3 rounded-lg" style="background-color: #E6F7FF; border: 1px solid #01BAEF; min-width: 150px;">
-                <span class="text-xs font-bold text-gray-500">පියවර 3</span>
-                <h4 class="font-semibold" style="color: #0B4F6C;">දත්ත ආදානය</h4>
-            </div>
-            <div class="flow-arrow hidden md:block">→</div>
-            <div class="flow-arrow md:hidden">↓</div>
-
-            <div class="text-center p-3 rounded-lg" style="background-color: #E6F7FF; border: 1px solid #01BAEF; min-width: 150px;">
-                <span class="text-xs font-bold text-gray-500">පියවර 4</span>
-                <h4 class="font-semibold" style="color: #0B4F6C;">දත්ත සැකසීම</h4>
-            </div>
-            <div class="flow-arrow hidden md:block">→</div>
-            <div class="flow-arrow md:hidden">↓</div>
-
-            <div class="text-center p-3 rounded-lg" style="background-color: #E6F7FF; border: 1px solid #01BAEF; min-width: 150px;">
-                <span class="text-xs font-bold text-gray-500">පියවර 5</span>
-                <h4 class="font-semibold" style="color: #0B4F6C;">දත්ත ප්‍රතිදානය</h4>
-            </div>
-            <div class="flow-arrow hidden md:block">→</div>
-            <div class="flow-arrow md:hidden">↓</div>
-
-            <div class="text-center p-3 rounded-lg" style="background-color: #E6F7FF; border: 1px solid #01BAEF; min-width: 150px;">
-                <span class="text-xs font-bold text-gray-500">පියවර 6</span>
-                <h4 class="font-semibold" style="color: #0B4F6C;">දත්ත ගබඩා කිරීම</h4>
-            </div>
-            <div class="flow-arrow hidden md:block">→</div>
-            <div class="flow-arrow md:hidden">↓</div>
-
-            <div class="text-center p-3 rounded-lg" style="background-color: #E6F7FF; border: 1px solid #01BAEF; min-width: 150px;">
-                <span class="text-xs font-bold text-gray-500">පියවර 7</span>
-                <h4 class="font-semibold" style="color: #0B4F6C;">දත්ත ඉවත් කිරීම</h4>
-            </div>
+        <!-- Information Card -->
+        <div class="card border-l-4 border-cyan-600">
+            <h2 class="text-3xl mb-3 font-extrabold text-cyan-800">Information (තොරතුරු)</h2>
+            <p class="text-sm font-medium text-gray-800 italic mb-4 border-b pb-3">
+                <strong class="text-base">Definition:</strong> Processed, organized, or contextualized data. Information has meaning, is relevant, and is useful for decision-making.
+            </p>
+            <h3 class="font-bold text-lg text-gray-700">සරල සිංහල පැහැදිලි කිරීම:</h3>
+            <p class="text-gray-600 text-base mt-2">
+                දත්ත සැකසීමෙන්, සංවිධානය කිරීමෙන් හෝ විශ්ලේෂණය කිරීමෙන් ලැබෙන අර්ථවත් ප්‍රතිඵලය. මෙය නිවැරදි තීරණ ගැනීමට උපකාරී වේ. (උදා: "මෙම භාණ්ඩයේ මිල රු. 10 කි.")
+            </p>
         </div>
     </section>
 
+    <!-- Section 2: Data Life Cycle -->
     <section class="md:col-span-2 card">
-        <h2 class="text-2xl text-center mb-6">වළාකුළු පරිගණක සංකල්පය (Cloud Computing)</h2>
-        <p class="text-center text-gray-700 max-w-3xl mx-auto mb-8">අන්තර්ජාලය හරහා පරිගණක සම්පත් (ගබඩා ඉඩ, මෘදුකාංග) ඉල්ලුම මත ලබා දෙන සේවාවකි. මෙය ප්‍රධාන සේවා ආකෘති 3 කින් සහ විවිධ වාසි/අවාසි වලින් සමන්විත වේ.</p>
-        <div class="grid md:grid-cols-2 gap-8 items-start">
-            <div>
-                <h3 class="text-xl text-center font-bold mb-4">සේවා ආකෘති (Service Models)</h3>
-                <div class="flex flex-col-reverse items-center max-w-xs mx-auto">
-                    <div class="w-full p-4 text-center rounded-b-lg font-semibold text-white" style="background-color: #F79D65;">
-                        IaaS<span class="block text-xs font-normal">(Infrastructure as a Service)</span>
+        <h2 class="text-3xl text-center mb-4">Data Life Cycle (දත්ත ජීවන චක්‍රය)</h2>
+        <p class="text-center text-gray-700 max-w-4xl mx-auto mb-8">
+            The process of converting raw data into meaningful information involves seven key steps. <strong class="text-cyan-600 font-semibold">(අමු දත්ත අර්ථවත් තොරතුරු බවට පත් කරන මූලික පියවර 7.)</strong>
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-2">
+            
+            <div class="text-center p-4 rounded-xl flow-step">
+                <h4 class="font-bold">1. Data Collection</h4>
+                <span class="text-xs font-normal">(දත්ත එකතු කිරීම)</span>
+            </div>
+            <div class="flow-arrow hidden md:block">→</div>
+            <div class="flow-arrow md:hidden rotate-90">→</div>
+            
+            <div class="text-center p-4 rounded-xl flow-step">
+                <h4 class="font-bold">2. Data Preparation</h4>
+                <span class="text-xs font-normal">(දත්ත පිළියෙල කිරීම)</span>
+            </div>
+            <div class="flow-arrow hidden md:block">→</div>
+            <div class="flow-arrow md:hidden rotate-90">→</div>
+
+            <div class="text-center p-4 rounded-xl flow-step">
+                <h4 class="font-bold">3. Data Input</h4>
+                <span class="text-xs font-normal">(දත්ත ආදානය)</span>
+            </div>
+            <div class="flow-arrow hidden md:block">→</div>
+            <div class="flow-arrow md:hidden rotate-90">→</div>
+
+            <div class="text-center p-4 rounded-xl flow-step">
+                <h4 class="font-bold">4. Data Processing</h4>
+                <span class="text-xs font-normal">(දත්ත සැකසීම)</span>
+            </div>
+            <div class="flow-arrow hidden md:block">→</div>
+            <div class="flow-arrow md:hidden rotate-90">→</div>
+
+            <div class="text-center p-4 rounded-xl flow-step">
+                <h4 class="font-bold">5. Data Output</h4>
+                <span class="text-xs font-normal">(දත්ත ප්‍රතිදානය)</span>
+            </div>
+            <div class="flow-arrow hidden md:block">→</div>
+            <div class="flow-arrow md:hidden rotate-90">→</div>
+
+            <div class="text-center p-4 rounded-xl flow-step">
+                <h4 class="font-bold">6. Data Storage</h4>
+                <span class="text-xs font-normal">(දත්ත ගබඩා කිරීම)</span>
+            </div>
+            <div class="flow-arrow hidden md:block">→</div>
+            <div class="flow-arrow md:hidden rotate-90">→</div>
+
+            <div class="text-center p-4 rounded-xl flow-step">
+                <h4 class="font-bold">7. Data Disposal</h4>
+                <span class="text-xs font-normal">(දත්ත ඉවත් කිරීම)</span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 3: Cloud Computing (Bilingual + Chart) -->
+    <section class="md:col-span-2 card">
+        <h2 class="text-3xl text-center mb-6">Cloud Computing (වළාකුළු පරිගණක සංකල්පය)</h2>
+        <p class="text-center text-gray-700 max-w-4xl mx-auto mb-8">
+            <strong class="text-base">Definition:</strong> The on-demand delivery of IT resources (like storage, software, and processing power) over the internet with pay-as-you-go pricing. 
+            <strong class="font-semibold text-cyan-600 block mt-2">(අන්තර්ජාලය හරහා පරිගණක සම්පත් (ගබඩා, මෘදුකාංග) ඉල්ලුම මත ලබා දෙන සේවාව.)</strong>
+        </p>
+        
+        <div class="grid md:grid-cols-3 gap-8 items-start">
+            <!-- 3 Service Models (Pyramid) -->
+            <div class="md:col-span-1">
+                <h3 class="text-xl text-center font-bold mb-4">සේවා ආකෘති | Service Models</h3>
+                <div class="flex flex-col-reverse items-center max-w-xs mx-auto shadow-xl rounded-lg overflow-hidden">
+                    <div class="w-full p-4 text-center rounded-b-lg font-semibold text-white" style="background-color: var(--color-primary);">
+                        IaaS <span class="block text-xs font-normal">(Infrastructure as a Service - යටිතල පහසුකම්)</span>
                     </div>
-                    <div class="w-10/12 p-4 text-center font-semibold text-white" style="background-color: #F7AF89;">
-                        PaaS<span class="block text-xs font-normal">(Platform as a Service)</span>
+                    <div class="w-10/12 p-4 text-center font-semibold text-white" style="background-color: var(--color-secondary);">
+                        PaaS <span class="block text-xs font-normal">(Platform as a Service - වේදිකාව)</span>
                     </div>
-                    <div class="w-8/12 p-4 text-center rounded-t-lg font-semibold text-white" style="background-color: #F9C3AD;">
-                        SaaS<span class="block text-xs font-normal">(Software as a Service)</span>
+                    <div class="w-8/12 p-4 text-center rounded-t-lg font-semibold text-white" style="background-color: #00897B;">
+                        SaaS <span class="block text-xs font-normal">(Software as a Service - මෘදුකාංග)</span>
                     </div>
                 </div>
-                <p class="text-sm text-gray-600 text-center mt-4">මෙම ආකෘති මගින් පරිශීලකයාට අවශ්‍ය තාක්ෂණික පාලනයේ මට්ටම නිරූපණය වේ (IaaS - වැඩිම පාලනය, SaaS - අඩුම පාලනය).</p>
+                <p class="text-sm text-gray-600 text-center mt-4">
+                    මෙහිදී <strong class="text-blue-600">IaaS</strong> හි වැඩිම පාලනයක් ඇති අතර <strong class="text-teal-600">SaaS</strong> හි අඩුම පාලනයක් ඇත.
+                </p>
             </div>
-            <div>
-                <h3 class="text-xl text-center font-bold mb-4">වාසි සහ අවාසි</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <h4 class="font-semibold text-green-600 mb-2">වාසි (Advantages)</h4>
-                        <ul class="space-y-2 text-sm">
-                            <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>අඩු පිරිවැය</li>
-                            <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>ප්‍රවේශවීමේ පහසුව</li>
-                            <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>ප්‍රමාණය වෙනස් කිරීම (Scalability)</li>
-                            <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>දත්ත ආරක්ෂාව (Backup)</li>
-                            <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>නඩත්තුව සේවා සපයන්නා සතු වීම</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-red-600 mb-2">අවාසි (Disadvantages)</h4>
-                        <ul class="space-y-2 text-sm">
-                            <li class="flex items-center"><span class="text-red-500 mr-2">✗</span>අන්තර්ජාලය අනිවාර්යය වීම</li>
-                            <li class="flex items-center"><span class="text-red-500 mr-2">✗</span>ආරක්ෂාව පිළිබඳ ගැටළු</li>
-                            <li class="flex items-center"><span class="text-red-500 mr-2">✗</span>පාලනය අඩු වීම</li>
-                        </ul>
-                    </div>
+            
+            <!-- Advantages & Disadvantages -->
+            <div class="md:col-span-2 grid sm:grid-cols-2 gap-6">
+                <div>
+                    <h4 class="font-bold text-xl text-green-600 mb-3 border-b-2 border-green-200 pb-2">Advantages (වාසි)</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start"><span class="text-green-500 font-bold text-xl mr-2">✓</span><div><strong class="text-gray-900">Reduced Cost:</strong> අඩු මූලික පිරිවැය.</div></li>
+                        <li class="flex items-start"><span class="text-green-500 font-bold text-xl mr-2">✓</span><div><strong class="text-gray-900">Scalability:</strong> ඉල්ලුමට අනුව ප්‍රමාණය වෙනස් කිරීමේ හැකියාව.</div></li>
+                        <li class="flex items-start"><span class="text-green-500 font-bold text-xl mr-2">✓</span><div><strong class="text-gray-900">Accessibility:</strong> ඕනෑම තැනක සිට ප්‍රවේශවීමේ පහසුව.</div></li>
+                        <li class="flex items-start"><span class="text-green-500 font-bold text-xl mr-2">✓</span><div><strong class="text-gray-900">Automatic Backup:</strong> දත්ත ආරක්ෂාව (Backup).</div></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xl text-red-600 mb-3 border-b-2 border-red-200 pb-2">Disadvantages (අවාසි)</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start"><span class="text-red-500 font-bold text-xl mr-2">✗</span><div><strong class="text-gray-900">Internet Requirement:</strong> අන්තර්ජාලය අනිවාර්යය වීම.</div></li>
+                        <li class="flex items-start"><span class="text-red-500 font-bold text-xl mr-2">✗</span><div><strong class="text-gray-900">Security Concerns:</strong> දත්ත ආරක්ෂාව පිළිබඳ ගැටළු.</div></li>
+                        <li class="flex items-start"><span class="text-red-500 font-bold text-xl mr-2">✗</span><div><strong class="text-gray-900">Limited Control:</strong> පරිශීලක පාලනය අඩු වීම.</div></li>
+                        <li class="flex items-start"><span class="text-red-500 font-bold text-xl mr-2">✗</span><div><strong class="text-gray-900">Vendor Lock-in:</strong> සේවා සපයන්නා මත යැපීම.</div></li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Section 4: Applications and Characteristics -->
     <section class="card">
-        <h2 class="text-2xl text-center mb-4">ICT යෙදවුම් (Applications of ICT)</h2>
-        <p class="text-center text-gray-700 mb-6">ICT භාවිතය අද වන විට සෑම ක්ෂේත්‍රයක් පුරාම විහිදී පවතී. මෙම ප්‍රස්ථාරය මගින් ප්‍රධාන ක්ෂේත්‍ර 9 කට එහි බලපෑමේ පුළුල් බව පෙන්වයි.</p>
+        <h2 class="text-3xl text-center mb-4">ICT Applications (ICT යෙදවුම්)</h2>
+        <p class="text-center text-gray-700 mb-6">
+            ICT is integrated across all sectors. This radar chart shows the wide impact across 9 key areas (Score out of 10).
+            <strong class="font-semibold text-cyan-600 block mt-2">(ICT තාක්ෂණය සෑම ක්ෂේත්‍රයක්ම ආවරණය කරයි.)</strong>
+        </p>
         <div class="chart-container-radar">
             <canvas id="applicationsRadarChart"></canvas>
         </div>
     </section>
 
     <section class="card">
-        <h2 class="text-2xl text-center mb-4">වටිනා තොරතුරුවල ගතිලක්ෂණ</h2>
-        <p class="text-center text-gray-700 mb-6">හොඳ තීරණ ගැනීම සඳහා, තොරතුරු වල මෙම ගුණාංග අඩංගු විය යුතුය.</p>
+        <h2 class="text-3xl text-center mb-4">Characteristics of Valuable Information</h2>
+        <p class="text-center text-gray-700 mb-6">
+            <strong class="text-base">Definition:</strong> Attributes that determine the quality and utility of information for effective decision-making. 
+            <strong class="font-semibold text-cyan-600 block mt-2">(තීරණ ගැනීම සඳහා තොරතුරුවල තිබිය යුතු ගුණාංග.)</strong>
+        </p>
         <ul class="space-y-3 mt-4">
-            <li class="flex items-start"><span class="text-green-500 font-bold text-xl mr-2 mt-1">✓</span><div><strong style="color: #0B4F6C;">අදාළත්වය (Relevance):</strong> අවශ්‍යතාවයට ගැලපිය යුතුය.</div></li>
-            <li class="flex items-start"><span class="text-green-500 font-bold text-xl mr-2 mt-1">✓</span><div><strong style="color: #0B4F6C;">සම්පූර්ණත්වය (Completeness):</strong> සියලුම කරුණු අඩංගු විය යුතුය.</div></li>
-            <li class="flex items-start"><span class="text-green-500 font-bold text-xl mr-2 mt-1">✓</span><div><strong style="color: #0B4F6C;">නිවැරදිභාවය (Accuracy):</strong> දෝෂ රහිත විය යුතුය.</div></li>
-            <li class="flex items-start"><span class="text-green-500 font-bold text-xl mr-2 mt-1">✓</span><div><strong style="color: #0B4F6C;">කාලානුරූපී බව (Timeliness):</strong> නියම වේලාවට ලැබිය යුතුය.</div></li>
-            <li class="flex items-start"><span class="text-green-500 font-bold text-xl mr-2 mt-1">✓</span><div><strong style="color: #0B4F6C;">පිරිවැයට වටිනාකමක් තිබීම:</strong> වියදමට වඩා වටිනා විය යුතුය.</div></li>
-            <li class="flex items-start"><span class="text-green-500 font-bold text-xl mr-2 mt-1">✓</span><div><strong style="color: #0B4F6C;">තේරුම්ගත හැකි බව:</strong> පැහැදිලි විය යුතුය.</div></li>
-            <li class="flex items-start"><span class="text-green-500 font-bold text-xl mr-2 mt-1">✓</span><div><strong style="color: #0B4F6C;">විශ්වාසනීයත්වය (Reliability):</strong> විශ්වාසවන්ත මූලාශ්‍රයකින් විය යුතුය.</div></li>
+            <li class="flex items-start p-3 bg-gray-50 rounded-lg border-l-4 border-amber-600 hover:bg-amber-100 transition">
+                <span class="text-amber-600 font-extrabold text-xl mr-3">1</span>
+                <div>
+                    <strong class="text-gray-900">Relevance (අදාළත්වය):</strong> It must be suitable for the current need.
+                </div>
+            </li>
+            <li class="flex items-start p-3 bg-gray-50 rounded-lg border-l-4 border-amber-600 hover:bg-amber-100 transition">
+                <span class="text-amber-600 font-extrabold text-xl mr-3">2</span>
+                <div>
+                    <strong class="text-gray-900">Accuracy (නිවැරදිභාවය):</strong> It must be free from errors and reliable.
+                </div>
+            </li>
+            <li class="flex items-start p-3 bg-gray-50 rounded-lg border-l-4 border-amber-600 hover:bg-amber-100 transition">
+                <span class="text-amber-600 font-extrabold text-xl mr-3">3</span>
+                <div>
+                    <strong class="text-gray-900">Timeliness (කාලානුරූපී බව):</strong> It must be available when needed.
+                </div>
+            </li>
+            <li class="flex items-start p-3 bg-gray-50 rounded-lg border-l-4 border-amber-600 hover:bg-amber-100 transition">
+                <span class="text-amber-600 font-extrabold text-xl mr-3">4</span>
+                <div>
+                    <strong class="text-gray-900">Completeness (සම්පූර්ණත්වය):</strong> All required facts must be included.
+                </div>
+            </li>
+            <li class="flex items-start p-3 bg-gray-50 rounded-lg border-l-4 border-amber-600 hover:bg-amber-100 transition">
+                <span class="text-amber-600 font-extrabold text-xl mr-3">5</span>
+                <div>
+                    <strong class="text-gray-900">Reliability (විශ්වාසනීයත්වය):</strong> It must come from a trustworthy source.
+                </div>
+            </li>
         </ul>
     </section>
 
+    <!-- Section 5: Big Data -->
     <section class="card">
-        <h2 class="text-2xl text-center mb-4">විශාල දත්ත (Big Data)</h2>
-        <p class="text-center text-gray-700 mb-6">සාම්ප්‍රදායික මෙවලම්වලට හැසිරවිය නොහැකි තරම් විශාල, වේගවත් හා විවිධාකාර දත්ත. මෙය ප්‍රධාන ලක්ෂණ 3 කින් (3V's) අර්ථ දැක්වේ.</p>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-            <div class="p-4 rounded-lg" style="background-color: #FFF5ED; border: 1px solid #F79D65;">
-                <h3 class="text-xl font-bold" style="color: #B45309;">Volume</h3>
-                <p class="font-semibold">පරිමාව</p>
+        <h2 class="text-3xl text-center mb-4">Big Data (විශාල දත්ත)</h2>
+        <p class="text-center text-gray-700 mb-6">
+            <strong class="text-base">Definition:</strong> Extremely large data sets that may be analyzed computationally to reveal patterns, trends, and associations, relating to human behavior and interactions.
+            <strong class="font-semibold text-cyan-600 block mt-2">(සාම්ප්‍රදායික මෙවලම්වලට හැසිරවිය නොහැකි තරම් විශාල දත්ත.)</strong>
+        </p>
+        <div class="grid grid-cols-3 gap-4 text-center">
+            <div class="p-4 rounded-lg border-2 border-amber-600 bg-amber-50 hover:bg-amber-200 transition">
+                <h3 class="text-2xl font-bold text-amber-800">Volume</h3>
+                <p class="font-semibold text-gray-700">පරිමාව (Quantity)</p>
             </div>
-            <div class="p-4 rounded-lg" style="background-color: #FFF5ED; border: 1px solid #F79D65;">
-                <h3 class="text-xl font-bold" style="color: #B45309;">Velocity</h3>
-                <p class="font-semibold">වේගය</p>
+            <div class="p-4 rounded-lg border-2 border-amber-600 bg-amber-50 hover:bg-amber-200 transition">
+                <h3 class="text-2xl font-bold text-amber-800">Velocity</h3>
+                <p class="font-semibold text-gray-700">වේගය (Speed)</p>
             </div>
-            <div class="p-4 rounded-lg" style="background-color: #FFF5ED; border: 1px solid #F79D65;">
-                <h3 class="text-xl font-bold" style="color: #B45309;">Variety</h3>
-                <p class="font-semibold">විවිධත්වය</p>
+            <div class="p-4 rounded-lg border-2 border-amber-600 bg-amber-50 hover:bg-amber-200 transition">
+                <h3 class="text-2xl font-bold text-amber-800">Variety</h3>
+                <p class="font-semibold text-gray-700">විවිධත්වය (Diversity)</p>
             </div>
         </div>
     </section>
     
+    <!-- Section 6: Social and Economic Impact -->
     <section class="card">
-        <h2 class="text-2xl text-center mb-4">සමාජීය හා ආර්ථික බලපෑම</h2>
-        <p class="text-center text-gray-700 mb-6">ICT තාක්ෂණය සමාජයට සහ ආර්ථිකයට ධනාත්මක මෙන්ම ඍණාත්මක බලපෑම් ද ඇති කරයි.</p>
+        <h2 class="text-3xl text-center mb-4">Social & Economic Impact</h2>
+        <p class="text-center text-gray-700 mb-6">
+            <strong class="text-base">Definition:</strong> The positive and negative consequences resulting from the widespread use of ICT in society and the economy.
+            <strong class="font-semibold text-cyan-600 block mt-2">(ICT තාක්ෂණය සමාජයට හා ආර්ථිකයට ඇති කරන ධනාත්මක/ඍණාත්මක බලපෑම්.)</strong>
+        </p>
         <div class="grid md:grid-cols-2 gap-6 text-sm">
             <div>
-                <h3 class="text-lg font-bold text-green-600 mb-3">ධනාත්මක බලපෑම් (Positive)</h3>
-                <ul class="list-disc list-inside space-y-1 text-gray-700">
-                    <li>සන්නිවේදනය වැඩි දියුණු කිරීම</li>
-                    <li>කාර්යක්ෂමතාව වැඩි කිරීම</li>
-                    <li>අධ්‍යාපන අවස්ථා පුළුල් කිරීම</li>
-                    <li>ආර්ථික වර්ධනය</li>
-                    <li>විනෝදාස්වාදය සහ විවේකය</li>
-                    <li>බැංකු කටයුතු පහසු වීම</li>
-                    <li>පිරිවැය අඩුකර ගැනීම</li>
+                <h3 class="text-xl font-bold text-green-600 mb-3 border-b-2 border-green-200 pb-2">Positive Impacts (ධනාත්මක බලපෑම්)</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong class="text-gray-900">Improved Communication:</strong> සන්නිවේදනය වැඩි දියුණු කිරීම.</li>
+                    <li><strong class="text-gray-900">Increased Efficiency:</strong> කාර්යක්ෂමතාව වැඩි කිරීම.</li>
+                    <li><strong class="text-gray-900">Wider Education Access:</strong> අධ්‍යාපන අවස්ථා පුළුල් කිරීම.</li>
+                    <li><strong class="text-gray-900">Economic Growth:</strong> ආර්ථික වර්ධනය.</li>
+                    <li><strong class="text-gray-900">E-Banking/E-Commerce:</strong> බැංකු කටයුතු/වෙළඳාම පහසු වීම.</li>
                 </ul>
             </div>
             <div>
-                <h3 class="text-lg font-bold text-red-600 mb-3">ඍණාත්මක බලපෑම් (Negative)</h3>
-                <ul class="list-disc list-inside space-y-1 text-gray-700">
-                    <li>රැකියා වියුක්තිය (ස්වයංක්‍රීයකරණය)</li>
-                    <li>ඩිජිටල් බෙදීම (Digital Divide)</li>
-                    <li>පුද්ගලිකත්වය උල්ලංඝනය වීම</li>
-                    <li>සයිබර් අපරාධ (Cybercrime)</li>
-                    <li>සමාජ ජාල ඇබ්බැහිවීම</li>
-                    <li>පාරිසරික ගැටළු (e-waste)</li>
-                    <li>සදාචාරාත්මක හා නෛතික ගැටළු</li>
-                    <li>සෞඛ්‍ය ගැටළු</li>
+                <h3 class="text-xl font-bold text-red-600 mb-3 border-b-2 border-red-200 pb-2">Negative Impacts (ඍණාත්මක බලපෑම්)</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong class="text-gray-900">Job Displacement (Automation):</strong> රැකියා වියුක්තිය.</li>
+                    <li><strong class="text-gray-900">Digital Divide:</strong> ඩිජිටල් බෙදීම (තාක්ෂණික පරතරය).</li>
+                    <li><strong class="text-gray-900">Privacy Violation:</strong> පුද්ගලිකත්වය උල්ලංඝනය වීම.</li>
+                    <li><strong class="text-gray-900">Cybercrime:</strong> සයිබර් අපරාධ.</li>
+                    <li><strong class="text-gray-900">Health Issues:</strong> සෞඛ්‍ය ගැටළු (e.g., Eye strain).</li>
                 </ul>
             </div>
         </div>
@@ -198,8 +317,11 @@
 
 </main>
 
-<footer class="text-center p-6 mt-8">
-    <p class="text-gray-600 text-sm">උසස් පෙළ ICT (ඒකකය 1) විෂය කරුණු ඇසුරින් සකස් කරන ලද දළ විශ්ලේෂණයකි.</p>
+<footer class="text-center p-6 mt-12 bg-gray-200">
+    <p class="text-gray-700 text-sm">
+        This is an overview created based on the G.C.E. Advanced Level ICT (Unit 1) Syllabus. 
+        <strong class="block mt-1">උසස් පෙළ ICT (ඒකකය 1) විෂය කරුණු ඇසුරින් සකස් කරන ලද දළ විශ්ලේෂණයකි.</strong>
+    </p>
 </footer>
 
 <script>
@@ -224,9 +346,9 @@
         };
         
         const radarColors = {
-            backgroundColor: 'rgba(32, 163, 158, 0.2)',
-            borderColor: 'rgba(32, 163, 158, 1)',
-            pointBackgroundColor: 'rgba(32, 163, 158, 1)',
+            backgroundColor: 'rgba(0, 172, 193, 0.4)', /* Cyan 600 with transparency */
+            borderColor: 'rgba(0, 172, 193, 1)',
+            pointBackgroundColor: 'rgba(0, 172, 193, 1)',
         };
 
         const ctxRadar = document.getElementById('applicationsRadarChart').getContext('2d');
@@ -234,18 +356,18 @@
             type: 'radar',
             data: {
                 labels: [
-                    'අධ්‍යාපනය', 
-                    'සෞඛ්‍යය', 
-                    'කෘෂිකර්මාන්තය', 
-                    'ව්‍යාපාර', 
-                    'ඉංජිනේරු', 
-                    'අලෙවිකරණය', 
-                    'ආරක්ෂාව', 
-                    'ප්‍රවාහනය', 
-                    'විනෝදාස්වාදය'
+                    ['Education', 'අධ්‍යාපනය'], 
+                    ['Health', 'සෞඛ්‍යය'], 
+                    ['Agriculture', 'කෘෂිකර්මාන්තය'], 
+                    ['Business', 'ව්‍යාපාර'], 
+                    ['Engineering', 'ඉංජිනේරු'], 
+                    ['Marketing', 'අලෙවිකරණය'], 
+                    ['Security', 'ආරක්ෂාව'], 
+                    ['Transport', 'ප්‍රවාහනය'], 
+                    ['Entertainment', 'විනෝදාස්වාදය']
                 ],
                 datasets: [{
-                    label: 'ICT යෙදවුම්',
+                    label: 'ICT Impact Score (1-10)',
                     data: [9, 8, 7, 9, 8, 8, 9, 7, 9],
                     backgroundColor: radarColors.backgroundColor,
                     borderColor: radarColors.borderColor,
@@ -263,28 +385,40 @@
                 plugins: {
                     ...tooltipTitleCallback.plugins,
                     legend: {
-                       display: false
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            color: '#1F2937',
+                            font: {
+                                size: 14
+                            }
+                        }
                     }
                 },
                 scales: {
                     r: {
                         angleLines: {
-                            color: '#E5E7EB'
+                            color: '#E5E7EB' /* Light gray */
                         },
                         grid: {
-                            color: '#E5E7EB'
+                            color: '#D1D5DB' /* Gray */
                         },
                         pointLabels: {
                             font: {
-                                size: 11
+                                size: 12
                             },
-                            color: '#0B4F6C'
+                            color: '#0B4F6C',
+                            callback: function(label) {
+                                // Display only the Sinhala label (if array)
+                                return Array.isArray(label) ? label[1] : label;
+                            }
                         },
                         ticks: {
                             backdropColor: 'transparent',
                             color: '#6B7280',
                             stepSize: 2,
-                            display: false
+                            max: 10,
+                            display: false 
                         }
                     }
                 }
@@ -292,4 +426,5 @@
         });
     });
 </script>
-</body> </html>
+</body>
+</html>

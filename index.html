@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A/L ICT: ඉංග්‍රීසි මාධ්‍යයේ තීරණාත්මක බව</title>
+    <title>A/L ICT: විද්‍යාගාර පුහුණුව සමඟින් විෂය නිවැරදිව ඉගෙනීම</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -44,28 +44,43 @@
 </head>
 <body class="bg-gradient-to-b from-gray-50 to-gray-100">
     
-    <!-- Combined Hero Section (Replaces Header and Teacher Profile) -->
+    
+<!-- NEW Hero Section: 2027 A/L ICT - Learning with Confidence (Based on user image) -->
     <section class="max-w-7xl mx-auto px-6 py-16">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             
             <!-- Text Content and CTA -->
             <div class="lg:order-1 order-2 text-center lg:text-left">
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-4 leading-tight">
-                    <span class="text-blue-700">2027 A/L ICT</span> විශ්වාසයෙන් ඉගෙනීමක්
-                </h1>
-                <p class="text-xl text-gray-600 max-w-4xl mx-auto lg:mx-0 font-medium mb-8">
-                    තිමානි දහනායක විසින් මෙහෙයවන භෞතික සහ මාර්ගගත (Online) පන්ති සඳහා එක්වන්න. 
-                    <span class="block mt-1 text-gray-700 font-semibold">BSc (Hons) in Computer Science, SLIIT (උපාධි අපේක්ෂක).</span>
+                
+                <!-- Main Headline -->
+                <p class="text-2xl sm:text-3xl font-bold text-blue-700 mb-3">
+                    2027 A/L ICT
                 </p>
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-8 leading-tight">
+                    විශ්වාසයෙන් ඉගෙනීමක්
+                </h1>
+                
+                <!-- Subtext (Reusing existing teacher info) -->
+                <p class="text-lg text-gray-700 max-w-4xl mx-auto lg:mx-0 font-medium mb-2">
+                    තිමානි දහනායක විසින් මෙහෙයවන භෞතික සහ මාර්ගගත (Online) පන්ති සඳහා එක්වන්න. 
+                </p>
+                <p class="text-lg text-gray-600 max-w-4xl mx-auto lg:mx-0 font-medium mb-10">
+                    <span class="block text-gray-700 font-semibold">BSc (Hons) in Computer Science, SLIIT (උපාධි අපේක්ෂක).</span>
+                </p>
+
                 <!-- CTA Buttons -->
                 <div class="flex justify-center lg:justify-start space-x-4">
-                    <a href="#registration" 
-                       class="bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-lg inline-block hover:bg-blue-800 transition shadow-lg">
+                  <a href="#registration" 
+                        class="bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-lg inline-block hover:bg-blue-800 transition shadow-lg flex-grow sm:flex-grow-0">
                         අදම ලියාපදිංචි වන්න
                     </a>
-                    <a href="#schedule" 
-                       class="bg-gray-200 text-gray-800 font-bold py-3 px-6 rounded-lg text-lg inline-block hover:bg-gray-300 transition shadow-md">
-                        කාලසටහන බලන්න
+                    <a href="#lab_advantage" 
+                        class="bg-gray-200 text-gray-800 font-bold py-3 px-6 rounded-lg text-lg inline-block hover:bg-gray-300 transition shadow-md flex-grow sm:flex-grow-0">
+                        Lab ක්‍රමවේදය
+                    </a>
+                    <a href="#lesson_dashboard" 
+                        class="bg-blue-500 text-white font-bold py-3 px-6 rounded-lg text-lg inline-block hover:bg-blue-600 transition shadow-lg flex-grow sm:flex-grow-0">
+                        ප්‍රායෝගික Labs බලන්න
                     </a>
                 </div>
             </div>
@@ -73,6 +88,7 @@
             <!-- Image Content -->
             <div class="lg:order-2 order-1 flex justify-center lg:justify-end">
                 <div class="w-full max-w-md bg-white rounded-3xl overflow-hidden shadow-2xl">
+                    <!-- Image Placeholder matching the style of the new hero image -->
                     <img src="imgs/pp.png"
                          alt="තිමානි දහනායක - ගුරුවරිය"
                          class="w-full h-auto object-cover"
@@ -82,16 +98,45 @@
         </div>
     </section>
 
+
     <main class="max-w-7xl mx-auto p-4 sm:p-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-            <!-- Section 1: Global Language - Doughnut Chart -->
+            <!-- Section 1: The Lab Advantage -->
+            <div id="lab_advantage" class="card-themed lg:col-span-2 bg-blue-50 border-2 border-blue-200">
+                <h2 class="text-3xl font-extrabold text-blue-800 mb-4 text-center">
+                    📖 සටහන් + 💻 Lab: ප්‍රායෝගිකත්වය සමඟින් න්‍යාය තහවුරු කිරීම
+                </h2>
+                <p class="text-base sm:text-lg text-gray-700 mb-8 text-center max-w-4xl mx-auto">
+                    A/L ICT විභාගය සමත් වීමට පමණක් නොව, විශ්වවිද්‍යාලයේදී සහ රැකියා වෙළඳපොලේදී සාර්ථක වීමටද ප්‍රායෝගික දැනුම අත්‍යවශ්‍ය වේ. අපගේ පන්තියේදී ඔබට ලැබෙන සුවිශේෂී වාසි:
+                </p>
+                
+                <div class="grid sm:grid-cols-3 gap-6 mt-6">
+                    <div class="text-center p-4 bg-white rounded-xl shadow-md">
+                        <span class="text-4xl block mb-2">⚙️</span>
+                        <h4 class="font-bold text-gray-900">සැබෑ කේතීකරණය (Real Coding)</h4>
+                        <p class="text-sm text-gray-600 mt-1">Python, SQL වැනි විෂය කොටස් සඳහා සෘජු පරිගණක භාවිතය.</p>
+                    </div>
+                    <div class="text-center p-4 bg-white rounded-xl shadow-md">
+                        <span class="text-4xl block mb-2">🧠</span>
+                        <h4 class="font-bold text-gray-900">ගැඹුරු අවබෝධය</h4>
+                        <p class="text-sm text-gray-600 mt-1">න්‍යාය (Theory) ක්‍රියාවට නැංවීමෙන් මතකය තහවුරු වීම.</p>
+                    </div>
+                    <div class="text-center p-4 bg-white rounded-xl shadow-md">
+                        <span class="text-4xl block mb-2">🚀</span>
+                        <h4 class="font-bold text-gray-900">විශ්වවිද්‍යාල සූදානම</h4>
+                        <p class="text-sm text-gray-600 mt-1">පළමු වසරේදී අවශ්‍ය වන මූලික Lab Skill හුරු කිරීම.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Global Language (Re-framed) - Doughnut Chart -->
             <div class="card-themed lg:col-span-2">
                 <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">
-                    තාක්ෂණයේ ගෝලීය භාෂාවට සෘජු ප්‍රවේශය
+                    තාක්ෂණයේ ගෝලීය භාෂාව (Lab වැඩ සඳහා අත්‍යවශ්‍ය)
                 </h2>
                 <p class="text-base sm:text-lg text-gray-700 mb-8 text-center max-w-3xl mx-auto">
-                    නවීන තාක්ෂණයන්, කේතීකරණ (coding) සහ පර්යේෂණ ලේඛන සියල්ල ඉංග්‍රීසියෙන් පවතින බැවින්, ඉංග්‍රීසි ප්‍රවීණතාවය යනු ගෝලීය දැනුම් සම්භාරයට ක්ෂණිකව පිවිසීමට ඇති එකම මාර්ගයයි.
+                    නවීන තාක්ෂණයන්, කේතීකරණ (coding) සහ පර්යේෂණ ලේඛන සියල්ල ඉංග්‍රීසියෙන් පවතින බැවින්, මෙම භාෂා ප්‍රවීණතාවය **ප්‍රායෝගිකව විද්‍යාගාරයේදී ක්‍රියාත්මක කිරීමේදී** අත්‍යවශ්‍ය වේ.
                 </p>
                 
                 <div class="flex flex-col lg:flex-row items-center gap-10">
@@ -105,102 +150,148 @@
                             <span class="text-3xl mr-4 text-blue-700">💡</span>
                             <div>
                                 <h4 class="font-semibold text-blue-800">ක්‍රමලේඛන භාෂා</h4>
-                                <p class="text-sm text-gray-600">සියලුම Programming Languages ඉංග්‍රීසි වචන සහ වාක්‍ය ඛණ්ඩ මත පදනම් වේ.</p>
+                                <p class="text-sm text-gray-600">සියලුම Programming Languages ඉංග්‍රීසි වචන මත පදනම් වන අතර, Lab සැසිවලදී අත්හදා බැලේ.</p>
                             </div>
                         </div>
                         <div class="bg-blue-50 p-5 rounded-xl flex items-center shadow-sm">
                             <span class="text-3xl mr-4 text-blue-700">🔗</span>
                             <div>
-                                <h4 class="font-semibold text-blue-800">ජාත්‍යන්තර සංසද</h4>
-                                <p class="text-sm text-gray-600">ගෝලීය සංවර්ධකයන් සමඟ සන්නිවේදනය කිරීමට ඇති හැකියාව.</p>
+                                <h4 class="font-semibold text-blue-800">ජාත්‍යන්තර සම්පත්</h4>
+                                <p class="text-sm text-gray-600">Lab වැඩවලදී ගැටළු විසඳීමට ගෝලීය සංවර්ධක සංසද භාවිතා කිරීමේ හැකියාව.</p>
                             </div>
                         </div>
                         <div class="bg-blue-50 p-5 rounded-xl flex items-center shadow-sm">
                             <span class="text-3xl mr-4 text-blue-700">⏱️</span>
                             <div>
                                 <h4 class="font-semibold text-blue-800">කාලය ඉතිරි කිරීම</h4>
-                                <p class="text-sm text-gray-600">දැනුම පරිවර්තනය වන තෙක් බලා නොසිට නවතම තාක්ෂණයන් ක්ෂණිකව අවබෝධ කරගැනීම.</p>
+                                <p class="text-sm text-gray-600">Lab සැසිවලදී නවතම තාක්ෂණයන් ක්ෂණිකව අවබෝධ කරගැනීම.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Section 2: University Readiness - Bar Chart -->
+            <!-- Section 3: University Readiness - Bar Chart (No change needed, still relevant) -->
             <div class="card-themed lg:col-span-1">
                 <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
                     විශ්වවිද්‍යාල සූදානම සංසන්දනය
                 </h2>
                 <p class="text-base text-gray-700 mb-8 text-center">
-                    දේශීය විශ්වවිද්‍යාලවල පළමු වසර තුළ තාක්ෂණික සංකල්ප අවබෝධ කරගැනීමේ ශිෂ්‍ය හැකියාවන් සංසන්දනය කිරීම.
+                    ප්‍රායෝගික හා න්‍යායික දැනුම සහිත ශිෂ්‍යයන් දේශීය විශ්වවිද්‍යාලවල පළමු වසර තුළ තාක්ෂණික සංකල්ප අවබෝධ කරගැනීමේ හැකියාවන් සංසන්දනය කිරීම.
                 </p>
                 <div class="chart-container" style="height: 350px;">
                     <canvas id="universityChart"></canvas>
                 </div>
             </div>
 
-            <!-- Section 3: Career Potential - Horizontal Bar Chart -->
+            <!-- Section 4: Career Potential - Horizontal Bar Chart (No change needed, still relevant) -->
             <div class="card-themed lg:col-span-1">
                 <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
                     වෘත්තීය ආදායම් වර්ධන විභවය
                 </h2>
                 <p class="text-base text-gray-700 mb-8 text-center">
-                    වෘත්තීය ජීවිතයේ පළමු වසර 5 තුළ ඉංග්‍රීසි මාධ්‍ය ප්‍රවීණතාවය ආදායම් වර්ධනයට බලපාන ආකාරය (සාමාන්‍ය දත්ත).
+                    ප්‍රායෝගික ඉංග්‍රීසි මාධ්‍ය ප්‍රවීණතාවය රැකියා වෙළඳපොලේදී ආදායම් වර්ධනයට බලපාන ආකාරය (සාමාන්‍ය දත්ත).
                 </p>
                 <div class="chart-container" style="height: 350px;">
                     <canvas id="careerChart"></canvas>
                 </div>
             </div>
 
-            <!-- Section 4: Lesson Links & Study Path (Unchanged) -->
-            <div class="card-themed lg:col-span-2">
-                <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">
-                    පන්ති අන්තර්ගතය සහ සටහන් (Lesson Links)
+            <!-- NEW Section 5: LESSON AND LAB DASHBOARD (Replaces old Section 5) -->
+            <div id="lesson_dashboard" class="card-themed lg:col-span-2 p-6 sm:p-8">
+                <h2 class="text-3xl font-extrabold text-blue-800 mb-4 text-center">
+                    🎓 සම්පූර්ණ විෂය මාලාව: සටහන් සහ විද්‍යාගාර සැසි (Labs)
                 </h2>
-                <p class="text-base sm:text-lg text-gray-700 mb-10 text-center max-w-3xl mx-auto">
-                    පහතින් දැක්වෙන්නේ අපගේ ඉගැන්වීමේ ක්‍රමවේදය සහ විෂය ආවරණය පිළිබඳව අදහසක් ලබා ගැනීමට ඇති සටහන් කිහිපයකි.
+                <p class="text-base sm:text-lg text-gray-700 mb-8 text-center max-w-4xl mx-auto">
+                    සෑම පාඩමක්ම න්‍යායාත්මක සටහන් (Theory Notes) සහ සෘජු ප්‍රායෝගික පුහුණු සැසියක් (Practical Lab) ලෙස කොටස් දෙකකින් ආවරණය කෙරේ.
                 </p>
 
-                <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Lesson 1: Databases -->
-                    <div class="card-themed p-0 overflow-hidden flex flex-col hover:shadow-xl">
-                        <img src="https://placehold.co/600x250/1D4ED8/FFFFFF?text=Lesson+01" alt="දත්ත සහ තොරතුරු" class="h-40 w-full object-cover rounded-t-lg" onerror="this.src='https://placehold.co/600x250/1D4ED8/FFFFFF?text=Lesson+01'; this.onerror=null;">
-                        <div class="p-5 flex-grow text-left">
-                            <span class="text-sm text-blue-700 font-medium">මූලික සංකල්ප</span>
-                            <h3 class="mt-2 text-xl font-semibold text-gray-900">දත්ත සහ තොරතුරු - හැඳින්වීම</h3>
-                            <p class="mt-3 text-gray-600">A/L විෂය නිර්දේශයේ පළමු පාඩමේ මූලික සංකල්ප.</p>
-                        </div>
-                        <div class="p-5 bg-gray-50 text-left border-t border-gray-100">
-                            <a href="syllabus/AL_ICT_Lesson_01.html" class="text-blue-700 font-medium hover:text-blue-900 transition">සටහන බලන්න →</a>
-                        </div>
-                    </div>
-
-                    <!-- Lesson 2: Python -->
-                    <div class="card-themed p-0 overflow-hidden flex flex-col hover:shadow-xl">
-                        <img src="https://placehold.co/600x250/3B82F6/FFFFFF?text=Python+Code" alt="ක්‍රමලේඛනය" class="h-40 w-full object-cover rounded-t-lg" onerror="this.src='https://placehold.co/600x250/3B82F6/FFFFFF?text=Python+Code'; this.onerror=null;">
-                        <div class="p-5 flex-grow text-left">
-                            <span class="text-sm text-blue-700 font-medium">ක්‍රමලේඛනය</span>
-                            <h3 class="mt-2 text-xl font-semibold text-gray-900">Python: මූලික ගැටළු විසඳීම</h3>
-                            <p class="mt-3 text-gray-600">නව විෂය නිර්දේශයේ Python ප්‍රශ්න සඳහා උපදෙස් 5ක්.</p>
-                        </div>
-                        <div class="p-5 bg-gray-50 text-left border-t border-gray-100">
-                            <a href="#" class="text-blue-700 font-medium hover:text-blue-900 transition">සටහන බලන්න →</a>
-                        </div>
-                    </div>
-
-                    <!-- Lesson 3: Networking -->
-                    <div class="card-themed p-0 overflow-hidden flex flex-col hover:shadow-xl">
-                        <img src="https://placehold.co/600x250/10B981/FFFFFF?text=Networking" alt="ජාලකරණය" class="h-40 w-full object-cover rounded-t-lg" onerror="this.src='https://placehold.co/600x250/10B981/FFFFFF?text=Networking'; this.onerror=null;">
-                        <div class="p-5 flex-grow text-left">
-                            <span class="text-sm text-blue-700 font-medium">ජාලකරණය</span>
-                            <h3 class="mt-2 text-xl font-semibold text-gray-900">OSI ආකෘතියේ ස්ථර 7</h3>
-                            <p class="mt-3 text-gray-600">OSI ආකෘතිය සරලව හා පැහැදිලිව ඉගෙන ගනිමු.</p>
-                        </div>
-                        <div class="p-5 bg-gray-50 text-left border-t border-gray-100">
-                            <a href="#" class="text-blue-700 font-medium hover:text-blue-900 transition">සටහන බලන්න →</a>
-                        </div>
-                    </div>
+                <!-- Dashboard/Table Structure -->
+                <div class="overflow-x-auto shadow-xl rounded-xl border border-gray-200">
+                    <table class="min-w-full bg-white divide-y divide-gray-200">
+                        <thead class="bg-blue-700 text-white">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider rounded-tl-xl">
+                                    #
+                                </th>
+                                <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
+                                    පාඩමේ මාතෘකාව (Theory Topic)
+                                </th>
+                                <th class="px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider">
+                                    සටහන් (Notes)
+                                </th>
+                                <th class="px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider rounded-tr-xl">
+                                    ප්‍රායෝගික (Lab/Practical)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <!-- Lesson 1 -->
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">දත්ත සහ තොරතුරු - හැඳින්වීම</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
+                                    <a href="syllabus/AL_ICT_Lesson_01_Notes.html" class="text-blue-600 hover:text-blue-800 font-medium">සටහන් බලන්න</a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-green-700 font-medium">
+                                    SQL Database Lab
+                                </td>
+                            </tr>
+                            <!-- Lesson 2 -->
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">2</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">පද්ධති සංවර්ධන සංකල්ප (SDLC)</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
+                                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">සටහන් බලන්න</a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-green-700 font-medium">
+                                    User Story & Use Case Lab
+                                </td>
+                            </tr>
+                            <!-- Lesson 3 -->
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">3</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">ක්‍රමලේඛනය: Python මූලිකාංග</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
+                                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">සටහන් බලන්න</a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-green-700 font-medium">
+                                    Python Coding Lab 1
+                                </td>
+                            </tr>
+                            <!-- Lesson 4 -->
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">4</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">ජාලකරණය හා OSI ස්ථර</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
+                                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">සටහන් බලන්න</a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-green-700 font-medium">
+                                    Network Simulation
+                                </td>
+                            </tr>
+                            <!-- Lesson 5 (Upcoming) -->
+                            <tr class="bg-yellow-50 hover:bg-yellow-100">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">5</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">දෘඩාංග හා මෘදුකාංග (Hardware & Software)</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
+                                    <span class="text-gray-500">පැමිණේ...</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                                    --
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+                
+                <div class="text-center mt-8">
+                    <a href="#registration" 
+                        class="bg-green-600 text-white font-bold py-3 px-6 rounded-lg text-lg inline-block hover:bg-green-700 transition shadow-lg">
+                        සම්පූර්ණ පාඨමාලාව සඳහා ලියාපදිංචි වන්න
+                    </a>
+                </div>
+
             </div>
 
         </div>
@@ -213,7 +304,8 @@
                 ඔබේ අනාගතය සඳහා නිවැරදි තීරණය ගන්න.
             </p>
             <div class="mt-8">
-                 <a href="https://wa.me/94721386936" target="_blank"
+                 <!--  -->
+               <a href="https://wa.me/94721386936" target="_blank"
                     class="bg-green-600 text-white font-bold py-3 px-6 rounded-lg text-lg inline-flex items-center hover:bg-green-700 transition">
                     WhatsApp හරහා සම්බන්ධ වන්න
                 </a>
@@ -222,10 +314,12 @@
     </footer>
 
     <script>
+        // Chart.js Configuration
         const tooltipTitleCallback = (tooltipItems) => {
             const item = tooltipItems[0];
             let label = item.chart.data.labels[item.dataIndex];
             if (Array.isArray(label)) {
+                // If label is an array (used for multi-line labels), join them
                 return label.join(' ');
             } else {
                 return label;
@@ -352,7 +446,7 @@
                 ],
                 datasets: [
                     {
-                        label: 'ඉංග්‍රීසි මාධ්‍ය ශිෂ්‍යයා',
+                        label: 'ඉංග්‍රීසි මාධ්‍ය + Lab ශිෂ්‍යයා', // Updated label
                         data: [90, 95, 85],
                         backgroundColor: chartColors.primaryAccent,
                         borderRadius: 6 
