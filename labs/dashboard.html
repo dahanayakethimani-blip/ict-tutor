@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>A/L ICT Laboratory</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Sans+Sinhala:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* --- Apple-inspired theme variables (Same as your previous file) --- */
+  :root{
+    --bg-1: #e8f0ff; /* soft blue */
+    --bg-2: #f7f8fd; /* near white */
+    --card-bg: rgba(255,255,255,0.62); /* Glass background */
+    --card-border: rgba(255,255,255,0.7);
+    --glass-blur: 18px;
+    --accent: #007aff; /* iOS blue */
+    --accent-dark: #0063d6;
+    --text: #0b1220;
+    --dark-heading: #04345b;
+    --radius-lg: 16px;
+    --shadow: 0 12px 40px rgba(6,18,40,0.07);
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    font-family: "Inter", "Noto Sans Sinhala", -apple-system, system-ui, sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: radial-gradient(800px 400px at 8% 18%, rgba(0,122,255,0.08), transparent),
+              linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  }
+
+  /* Glass card base class */
+  .glass {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.1);
+    box-shadow: var(--shadow);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .glass:hover { 
+    transform: translateY(-3px); 
+    box-shadow: 0 16px 45px rgba(6,18,40,0.1); 
+  }
+
+  /* Primary button style */
+  .btn-primary {
+    background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+    box-shadow: 0 8px 22px rgba(0,122,255,0.12);
+  }
+</style>
+</head>
+<body class="min-h-screen">
+
+  <header class="sticky top-0 z-10 p-4" style="background: rgba(255,255,255,0.9); backdrop-filter: blur(12px);">
+    <div class="max-w-screen-2xl mx-auto flex justify-between items-center px-4 md:px-6">
+      <div class="text-xl font-extrabold" style="color:var(--accent-dark)">A/L ICT Laboratory</div>
+      
+      <a href="index.html" class="text-sm font-semibold transition-colors" style="color:var(--accent)"
+         onmouseover="this.style.color='var(--accent-dark)'" 
+         onmouseout="this.style.color='var(--accent)'">
+        ← Back to Main Page
+      </a>
+    </div>
+  </header>
+
+  <div class="max-w-screen-2xl mx-auto p-4 md:p-6 lg:p-8">
+
+    <section class="glass p-8 md:p-12 text-center mb-8">
+      <p class="text-base font-semibold mb-2" style="color:var(--accent)">Practical Lab Series</p>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4" style="color:var(--dark-heading)">
+        The Laboratory
+      </h1>
+      <p class="text-lg text-gray-500 max-w-2xl mx-auto">
+        Access all interactive labs like **SortingStudio** and **DatabaseLab**. Turn theory into practical, hands-on skill.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="text-3xl font-bold mb-6 px-2" style="color:var(--dark-heading)">All Labs</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+
+        <div class="glass p-6 flex flex-col">
+          <div class="text-4xl mb-3">📊</div>
+          <h3 class="text-xl font-bold" style="color:var(--dark-heading)">SortingStudio</h3>
+          <p class="text-sm text-gray-500 mb-4">Lesson 3: Algorithms</p>
+          <p class="text-sm text-gray-600 flex-grow mb-6">
+            Visualize how Bubble Sort, Insertion Sort, and Quick Sort work in real-time.
+          </p>
+          <a href="sorting_studio.html" class="btn-primary text-white font-semibold py-2 px-4 rounded-lg text-sm text-center">
+            Launch Studio
+          </a>
+        </div>
+        
+        <div class="glass p-6 flex flex-col">
+          <div class="text-4xl mb-3">💾</div>
+          <h3 class="text-xl font-bold" style="color:var(--dark-heading)">DatabaseLab</h3>
+          <p class="text-sm text-gray-500 mb-4">Lesson 1: Data & Information</p>
+          <p class="text-sm text-gray-600 flex-grow mb-6">
+            Practice writing real SQL queries. Create tables, insert data, and run select statements.
+          </p>
+          <a href="labs/database-lab.html" class="btn-primary text-white font-semibold py-2 px-4 rounded-lg text-sm text-center">
+            Open Lab
+          </a>
+        </div>
+        
+        <div class="glass p-6 flex flex-col">
+          <div class="text-4xl mb-3">🌐</div>
+          <h3 class="text-xl font-bold" style="color:var(--dark-heading)">NetworkSim</h3>
+          <p class="text-sm text-gray-500 mb-4">Lesson 4: Networking</p>
+          <p class="text-sm text-gray-600 flex-grow mb-6">
+            Simulate a simple network. Configure IP addresses and ping devices to test connectivity.
+          </p>
+          <a href="labs/network-sim.html" class="btn-primary text-white font-semibold py-2 px-4 rounded-lg text-sm text-center">
+            Open Lab
+          </a>
+        </div>
+        
+        <div class="glass p-6 flex flex-col">
+          <div class="text-4xl mb-3">🐍</div>
+          <h3 class="text-xl font-bold" style="color:var(--dark-heading)">PythonPad</h3>
+          <p class="text-sm text-gray-500 mb-4">Lesson 2: Programming</p>
+          <p class="text-sm text-gray-600 flex-grow mb-6">
+            A simple code editor to practice Python fundamentals, variables, loops, and functions.
+          </p>
+          <a href="labs/python-pad.html" class="btn-primary text-white font-semibold py-2 px-4 rounded-lg text-sm text-center">
+            Open Lab
+          </a>
+        </div>
+        
+        <div class="glass p-6 flex flex-col">
+          <div class="text-4xl mb-3">💡</div>
+          <h3 class="text-xl font-bold" style="color:var(--dark-heading)">LogicGate Builder</h3>
+          <p class="text-sm text-gray-500 mb-4">Lesson 5: Computer Architecture</p>
+          <p class="text-sm text-gray-600 flex-grow mb-6">
+            Build and test simple logic circuits using AND, OR, NOT, and XOR gates.
+          </p>
+          <a href="labs/logic-gates.html" class="btn-primary text-white font-semibold py-2 px-4 rounded-lg text-sm text-center">
+            Open Lab
+          </a>
+        </div>
+        
+        <div class="glass p-6 flex flex-col">
+          <div class="text-4xl mb-3">🔄</div>
+          <h3 class="text-xl font-bold" style="color:var(--dark-heading)">SDLC Modeler</h3>
+          <p class="text-sm text-gray-500 mb-4">Lesson 2: System Development</p>
+          <p class="text-sm text-gray-600 flex-grow mb-6">
+            Create User Stories and Use Case diagrams for different project scenarios.
+          </p>
+          <a href="labs/sdlc-modeler.html" class="btn-primary text-white font-semibold py-2 px-4 rounded-lg text-sm text-center">
+            Open Lab
+          </a>
+        </div>
+        
+        </div>
+    </section>
+  </div>
+
+  <footer class="mt-8 border-t border-gray-100 p-8" style="background: linear-gradient(180deg, rgba(11,23,38,0.02), rgba(11,23,38,0.01));">
+    <div class="max-w-screen-2xl mx-auto text-center">
+      <h3 class="text-xl sm:text-2xl font-bold" style="color:var(--accent)">Thimani Dahanayake ICT Classes</h3>
+      <p class="text-sm text-gray-500 mt-2">Make the right decision for your future.</p>
+      <p class="text-xs text-gray-400 mt-6">
+        &copy; 2025 Thimani Dahanayake. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
